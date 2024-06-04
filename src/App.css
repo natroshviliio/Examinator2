@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+::before,
+::after {
+	user-select: none;
+}
+.alk-sanet {
+	font-family: 'ALK Sanet', sans-serif;
+}
