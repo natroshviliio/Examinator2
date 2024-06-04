@@ -1,7 +1,6 @@
 import React from "react";
 
-import { FaCloudMoon } from "react-icons/fa";
-import { FaCloudSun } from "react-icons/fa";
+import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
     return (
