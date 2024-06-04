@@ -27,8 +27,22 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                     <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg" id="navbar-nav-example">
                         <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4">
                             <li>
-                                <a href="javascript:;"
-                                    className="flex items-center justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">Home</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">მთავარი</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">ჩვენს შესახებ</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">პირობები</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">სერვისი</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">დაგვიკავშირდით</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base font-medium hover:text-indigo-700 mb-2 lg:mr-6 md:mb-0 md:mr-3">კიდე რამე სხვა</a>
                             </li>
                         </ul>
                         <div className='flex align-center w-fit mx-auto my-3 lg:my-0 lg:mx-0 lg:mr-3'>
