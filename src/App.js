@@ -3,12 +3,16 @@ import './App.css';
 import MainHeader from './Components/MainHeader';
 import Login from './Components/Login';
 
+import { initFlowbite } from 'flowbite';
 
+import { FaCloudMoon } from "react-icons/fa";
+import { FaCloudSun } from "react-icons/fa";
 
 function App() {
-
   const [darkMode, setDarkMode] = useState(false);
   const [moding, setModing] = useState(false);
+
+
   const changeDarkMode = e => {
     if (!moding) {
       setModing(true);
@@ -21,6 +25,7 @@ function App() {
   }
 
   useEffect(() => {
+    initFlowbite();
     const _darkMode = localStorage.getItem('darkMode');
     if (_darkMode === "false") setDarkMode(false);
     else setDarkMode(true);
