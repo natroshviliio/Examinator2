@@ -8,5 +8,5 @@
 	user-select: none;
 }
 .alk-sanet {
-	font-family: 'ALK Sanet', sans-serif;
+	font-family: 'ALK Sanet', sans-serif !important;
 }
