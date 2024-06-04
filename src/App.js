@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import 'alk-sanet/css/alk-sanet.min.css';
 import MainHeader from './Components/MainHeader';
 import Login from './Components/Login';
 
 import { initFlowbite } from 'flowbite';
-
-import { FaCloudMoon } from "react-icons/fa";
-import { FaCloudSun } from "react-icons/fa";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
