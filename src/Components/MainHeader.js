@@ -5,7 +5,7 @@ import { FaCloudSun } from "react-icons/fa";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
     return (
-        <nav className="w-full py-2 bg-white shadow-lg dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet">
+        <nav className="w-full py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet">
             <div className="">
                 <div className="relative w-full flex flex-col lg:flex-row">
                     <div className="flex w-full justify-between lg:flex-row px-3 py-2">
@@ -27,22 +27,22 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                     <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg" id="navbar-nav-example">
                         <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5">
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">ჩვენს შესახებ</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">ჩვენს შესახებ</a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">პირობები</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">პირობები</a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">სერვისი</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">სერვისი</a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">დაგვიკავშირდით</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">დაგვიკავშირდით</a>
                             </li>
                             <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg lg:text-base hover:text-gray-500 dark:hover:text-slate-100 mb-2 md:mb-0">კიდე რამე სხვა</a>
+                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">კიდე რამე სხვა</a>
                             </li>
                         </ul>
                         <div className='flex align-center w-fit mx-auto my-3 lg:my-0 lg:mx-0 lg:mr-3'>
