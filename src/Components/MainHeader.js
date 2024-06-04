@@ -12,9 +12,9 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                         <a href="javascript:;" className="flex items-center ml-2 text-lg">
                             Examinator
                         </a>
-                        <button data-collapse-toggle="navbar-nav-example" type="button"
+                        <button data-collapse-toggle="header-navbar" type="button"
                             className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                            aria-controls="navbar-nav-example" aria-expanded="false">
+                            aria-controls="header-navbar" aria-expanded="false">
                             <span class="sr-only">Open main menu</span>
                             <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                             </svg>
                         </button>
                     </div>
-                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg" id="navbar-nav-example">
+                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg" id="header-navbar">
                         <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5">
                             <li>
                                 <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
