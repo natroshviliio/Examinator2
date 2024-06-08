@@ -4,9 +4,9 @@ import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
     return (
-        <nav className="w-full py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-all duration-700">
+        <nav className="w-full relative py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-colors duration-700">
             <div className="container mx-auto">
-                <div className="relative w-full flex flex-col lg:flex-row">
+                <div className="w-full flex flex-col lg:flex-row">
                     <div className="flex justify-between lg:flex-row px-3 py-2">
                         <a href="javascript:;" className="flex items-center ml-2 text-lg">
                             Examinator
@@ -23,8 +23,8 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                             </svg>
                         </button>
                     </div>
-                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-all duration-700" id="header-navbar">
-                        <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5">
+                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700" id="header-navbar">
+                        <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5 text-gray-600 dark:text-slate-200">
                             <li>
                                 <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
                             </li>
@@ -56,6 +56,35 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                 `}>{darkMode ? <FaCloudMoon /> : <FaCloudSun />}</span>
                             </label>
                         </div>
+
+                        <div className="flex items-center">
+                            <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
+                                <span className="sr-only">Open user menu</span>
+                                <img className="w-9 h-9 rounded-full object-cover" src="/img/profile.webp" alt="user photo" />
+                            </button>
+
+                            <div id="dropdownAvatar" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                                    <div>იოანე ნატროშვილი</div>
+                                    <div className="font-medium truncate">i.natroshvili@ssu.edu.ge</div>
+                                </div>
+                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
+                                    <li>
+                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">პროფილი</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">პარამეტრები</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">რამე სხვა</a>
+                                    </li>
+                                </ul>
+                                <div className="py-2">
+                                    <a href="#" className="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-400 dark:hover:text-red-300">გასვლა</a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
