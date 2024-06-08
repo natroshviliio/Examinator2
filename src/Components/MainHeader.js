@@ -28,7 +28,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                     <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">ჩვენს შესახებ</a>
+                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">ჯგუფები</a>
                                 </li>
                                 <li>
                                     <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">პირობები</a>
