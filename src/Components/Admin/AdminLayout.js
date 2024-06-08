@@ -7,8 +7,8 @@ import { GrCopy } from "react-icons/gr";
 const AdminLayout = () => {
 
     return (
-        <div className="py-2 pt-3 flex flex-1 gap-3 alk-sanet overflow-hidden">
-            <div className="text-gray-600 dark:text-slate-200 hidden xl:block xl:basis-1/5 transition-colors duration-700 overflow-hidden">
+        <div className="py-2 pt-3 flex flex-col flex-1 lg:flex-row gap-3 alk-sanet overflow-hidden">
+            <div className="text-gray-600 dark:text-slate-200 xl:block xl:basis-1/5 transition-colors duration-700 overflow-hidden">
                 <div className="p-3 flex flex-0 bg-white dark:bg-slate-700 text-center text-lg rounded-md transition-colors duration-700">
                     <b className="text-gray-600 dark:text-slate-200">თემატიკები</b>
                 </div>
