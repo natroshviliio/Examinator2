@@ -10,3 +10,15 @@
 .alk-sanet {
 	font-family: 'ALK Sanet', sans-serif !important;
 }
+
+.overflow-v::-webkit-scrollbar {
+	/* display: none; */
+}
+
+.overflow-v::-webkit-scrollbar {
+	width: 4px;
+}
+
+.overflow-v::-webkit-scrollbar-thumb {
+	background-color: #a1a1a1;
+}
