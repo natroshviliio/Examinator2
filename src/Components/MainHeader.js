@@ -22,7 +22,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                     clip-rule="evenodd"></path>
                             </svg>
                         </button>
-                        <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-auto lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700 ml-auto" id="header-navbar">
+                        <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-full lg:w-auto lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700 ml-auto" id="header-navbar">
                             <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5 text-gray-600 dark:text-slate-200">
                                 <li>
                                     <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
@@ -62,7 +62,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                 <img className="w-9 h-9 rounded-full object-cover" src="/img/profile.webp" alt="user photo" />
                             </button>
 
-                            <div id="dropdownAvatar" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <div id="dropdownAvatar" className="z-10 hidden bg-white divide-y divide-gray-100 right-[200px] rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                                     <div>იოანე ნატროშვილი</div>
                                     <div className="font-medium truncate">i.natroshvili@ssu.edu.ge</div>
