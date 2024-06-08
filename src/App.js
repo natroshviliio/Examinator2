@@ -5,6 +5,7 @@ import MainHeader from './Components/MainHeader';
 import Login from './Components/Login';
 
 import { initFlowbite } from 'flowbite';
+import AdminLayout from './Components/Admin/AdminLayout';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -33,7 +34,8 @@ function App() {
   return (
     <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col h-screen p-3 ${darkMode ? 'dark' : 'light'}`}>
       <MainHeader darkMode={darkMode} changeDarkMode={changeDarkMode} />
-      <Login />
+      {/* <Login /> */}
+      <AdminLayout />
     </div>
   );
 }

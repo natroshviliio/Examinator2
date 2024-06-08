@@ -4,10 +4,10 @@ import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
     return (
-        <nav className="w-full py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet">
-            <div className="">
+        <nav className="w-full py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-all duration-700">
+            <div className="container mx-auto">
                 <div className="relative w-full flex flex-col lg:flex-row">
-                    <div className="flex w-full justify-between lg:flex-row px-3 py-2">
+                    <div className="flex justify-between lg:flex-row px-3 py-2">
                         <a href="javascript:;" className="flex items-center ml-2 text-lg">
                             Examinator
                         </a>
@@ -23,7 +23,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                             </svg>
                         </button>
                     </div>
-                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg" id="header-navbar">
+                    <div className="hidden absolute bg-white dark:bg-slate-700 lg:static top-[100%] w-full lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-all duration-700" id="header-navbar">
                         <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5">
                             <li>
                                 <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">მთავარი</a>
@@ -39,9 +39,6 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                             </li>
                             <li>
                                 <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">დაგვიკავშირდით</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">კიდე რამე სხვა</a>
                             </li>
                         </ul>
                         <div className='flex align-center w-fit mx-auto my-3 lg:my-0 lg:mx-0 lg:mr-3'>
