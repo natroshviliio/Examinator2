@@ -8,6 +8,8 @@ import { initFlowbite } from "flowbite";
 import AdminLayout from "./Components/Admin/AdminLayout";
 import Loading from "./Components/Loading";
 
+import { Routes, Route } from "react-router-dom";
+
 function App() {
     const [darkMode, setDarkMode] = useState(false);
     const [moding, setModing] = useState(false);
@@ -47,8 +49,10 @@ function App() {
         <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col min-h-screen md:h-screen p-3 ${darkMode ? "dark" : "light"}`}>
             {isLoading && <Loading loadingAnim={loadingAnim} />}
             <MainHeader darkMode={darkMode} changeDarkMode={changeDarkMode} />
-            <Login />
-            {/* <AdminLayout /> */}
+            <Routes>
+                <Route exact path="/" element={<Login />} />
+                <Route exact path="/admin" element={<AdminLayout />} />
+            </Routes>
         </div>
     );
 }

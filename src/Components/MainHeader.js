@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
     return (
@@ -20,29 +21,34 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                         <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-full lg:w-auto lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700 ml-auto z-[99]" id="header-navbar">
                             <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5 text-gray-600 dark:text-slate-200">
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                    <Link to="/" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         მთავარი
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         თემატიკები
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         ტესტები
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         ჯგუფები
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         დაგვიკავშირდით
-                                    </a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/admin" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                        ადმინი
+                                    </Link>
                                 </li>
                             </ul>
                             <div className="flex align-center w-fit mx-auto my-3 lg:my-0 lg:mx-0 lg:mr-3">
