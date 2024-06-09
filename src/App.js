@@ -44,11 +44,11 @@ function App() {
     }, []);
 
     return (
-        <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col md:h-screen p-3 ${darkMode ? "dark" : "light"}`}>
+        <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col min-h-screen md:h-screen p-3 ${darkMode ? "dark" : "light"}`}>
             {isLoading && <Loading loadingAnim={loadingAnim} />}
             <MainHeader darkMode={darkMode} changeDarkMode={changeDarkMode} />
-            {/* <Login /> */}
-            <AdminLayout />
+            <Login />
+            {/* <AdminLayout /> */}
         </div>
     );
 }
