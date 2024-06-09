@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
+    const [currentUrl, setCurrentUrl] = useState("");
+    const location = useLocation();
+
+    useEffect(() => {
+        setCurrentUrl(location.pathname);
+    }, [location]);
+
     return (
         <nav className="w-full relative py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-colors duration-700">
             <div className="container mx-auto">
@@ -25,21 +32,25 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                         მთავარი
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
-                                        თემატიკები
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
-                                        ტესტები
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
-                                        ჯგუფები
-                                    </Link>
-                                </li>
+                                {currentUrl === "/admin" && (
+                                    <>
+                                        <li>
+                                            <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                                თემატიკები
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                                ტესტები
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
+                                                ჯგუფები
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
                                 <li>
                                     <Link to="javascript:;" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
                                         დაგვიკავშირდით
