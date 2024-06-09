@@ -15,10 +15,10 @@
 	/* display: none; */
 }
 
-.overflow-v::-webkit-scrollbar {
+.overflow-v::-webkit-scrollbar, body::-webkit-scrollbar {
 	width: 4px;
 }
 
-.overflow-v::-webkit-scrollbar-thumb {
+.overflow-v::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
 	background-color: #a1a1a1;
 }

@@ -10,7 +10,7 @@ import { RiSurveyFill } from "react-icons/ri";
 
 const AdminLayout = () => {
     return (
-        <div className="py-2 pt-3 flex flex-col flex-1 lg:flex-row gap-3 alk-sanet overflow-hidden">
+        <div className="py-2 pt-3 flex flex-col flex-1 lg:flex-row gap-3 alk-sanet md:overflow-hidden">
             <div className="text-gray-600 dark:text-slate-200 hidden xl:block xl:basis-1/5 transition-colors duration-700 overflow-hidden overflow-y-auto overflow-v rounded">
                 <div className="p-3 flex flex-0 bg-white dark:bg-slate-700 text-center text-lg rounded-md transition-colors duration-700">
                     <b className="text-gray-600 dark:text-slate-200 sticky top-0">თემატიკები</b>
@@ -158,7 +158,7 @@ const AdminLayout = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col flex-1 p-2 rounded-md transition-colors duration-700 overflow-y-auto overflow-v">
+            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col flex-1 md:flex-auto p-2 rounded-md transition-colors duration-700">
                 <div className="px-3 py-2">
                     <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">დაფა</p>
                 </div>
