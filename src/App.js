@@ -27,19 +27,19 @@ function App() {
     }
   }
 
-  // useEffect(() => {
-  //   initFlowbite();
-  //   const _darkMode = localStorage.getItem('darkMode');
-  //   if (_darkMode === "false") setDarkMode(false);
-  //   else setDarkMode(true);
+  useEffect(() => {
+    initFlowbite();
+    const _darkMode = localStorage.getItem('darkMode');
+    if (_darkMode === "false") setDarkMode(false);
+    else setDarkMode(true);
 
-  //   setTimeout(() => {
-  //     setLoadingAnim(false);
-  //   }, 1500);
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 2000);
-  // }, []);
+    setTimeout(() => {
+      setLoadingAnim(false);
+    }, 1500);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
 
   return (
