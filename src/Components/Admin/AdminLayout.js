@@ -3,11 +3,14 @@ import { MdTimer, MdTask } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoIosRefresh } from "react-icons/io";
 import { GrCopy } from "react-icons/gr";
+import { FaUserGroup } from "react-icons/fa6";
+
+import { IoBookSharp } from "react-icons/io5";
 
 const AdminLayout = () => {
     return (
         <div className="py-2 pt-3 flex flex-col flex-1 lg:flex-row gap-3 alk-sanet overflow-hidden">
-            <div className="text-gray-600 dark:text-slate-200 xl:block xl:basis-1/5 transition-colors duration-700 overflow-hidden overflow-y-auto overflow-v">
+            <div className="text-gray-600 dark:text-slate-200 hidden xl:block xl:basis-1/5 transition-colors duration-700 overflow-hidden overflow-y-auto overflow-v rounded">
                 <div className="p-3 flex flex-0 bg-white dark:bg-slate-700 text-center text-lg rounded-md transition-colors duration-700">
                     <b className="text-gray-600 dark:text-slate-200 sticky top-0">თემატიკები</b>
                 </div>
@@ -42,6 +45,9 @@ const AdminLayout = () => {
                                                 <IoIosRefresh />
                                             </button>
                                         </p>
+                                        <p className="flex items-center">
+                                            <FaUserGroup className="text-lg mb-1" /> ჯგუფი: ჯგუფი 87
+                                        </p>
                                     </div>
                                     <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
                                         <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">გააქტიურება</button>
@@ -67,6 +73,9 @@ const AdminLayout = () => {
                                                 <IoIosRefresh />
                                             </button>
                                         </p>
+                                        <p className="flex items-center">
+                                            <FaUserGroup className="text-lg mb-1" /> ჯგუფი: ჯგუფი 87
+                                        </p>
                                     </div>
                                     <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
                                         <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">გააქტიურება</button>
@@ -88,7 +97,7 @@ const AdminLayout = () => {
                         <div id="accordion-collapse-body-2" className="hidden" aria-labelledby="accordion-collapse-heading-2">
                             <div className="p-2 text-gray-600 dark:text-slate-200 dark:border-gray-700 transition-none">
                                 <div className="p-3 border border-1 border-teal-300 dark:border-slate-500 rounded-md">
-                                    <p className="pb-1 border-b border-teal-300 dark:border-slate-500">პროგრამირების ტესტი 1</p>
+                                    <p className="pb-1 border-b border-teal-300 dark:border-slate-500">ჯავასკრიპტის ტესტი 1</p>
                                     <div className="text-sm mt-3 flex flex-col gap-1">
                                         <p className="flex items-center">
                                             <MdTask className="text-lg mb-1" /> კითხვების რაოდენობა: 50
@@ -106,6 +115,9 @@ const AdminLayout = () => {
                                                 <IoIosRefresh />
                                             </button>
                                         </p>
+                                        <p className="flex items-center">
+                                            <FaUserGroup className="text-lg mb-1" /> ჯგუფი: ჯგუფი 85
+                                        </p>
                                     </div>
                                     <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
                                         <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">გააქტიურება</button>
@@ -113,7 +125,7 @@ const AdminLayout = () => {
                                     </div>
                                 </div>
                                 <div className="p-3 border border-1 border-teal-300 dark:border-slate-500 rounded-md mt-3">
-                                    <p className="pb-1 border-b border-teal-300 dark:border-slate-500">პროგრამირების ტესტი 2</p>
+                                    <p className="pb-1 border-b border-teal-300 dark:border-slate-500">პითონის ტესტი 1</p>
                                     <div className="text-sm mt-3 flex flex-col gap-1">
                                         <p className="flex items-center">
                                             <MdTask className="text-lg mb-1" /> კითხვების რაოდენობა: 30
@@ -131,6 +143,9 @@ const AdminLayout = () => {
                                                 <IoIosRefresh />
                                             </button>
                                         </p>
+                                        <p className="flex items-center">
+                                            <FaUserGroup className="text-lg mb-1" /> ჯგუფი: ჯგუფი 84
+                                        </p>
                                     </div>
                                     <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
                                         <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">გააქტიურება</button>
@@ -142,7 +157,37 @@ const AdminLayout = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-1 p-2 rounded-md transition-colors duration-700"></div>
+            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col flex-1 p-2 rounded-md transition-colors duration-700">
+                <div className="p-3 flex flex-col md:flex-row items-start items-center md:justify-start gap-3 w-full">
+                    <div className="p-4 bg-teal-100/25 dark:bg-slate-500/25 border border-teal-400 dark:border-slate-500 rounded-md w-10/12 md:w-4/12 lg:w-3/12 text-teal-500 dark:text-slate-400 shadow-lg">
+                        <div className="flex justify-center text-7xl py-3">
+                            <IoBookSharp />
+                        </div>
+                        <div className="text-center">
+                            <p className="text-2xl">თემატიკები</p>
+                            <button className="mt-6 py-1 px-5 rounded border border-teal-500 hover:bg-teal-500 hover:text-white dark:border-slate-400 dark:hover:bg-slate-400 transition-colors duration-300">შექმნა</button>
+                        </div>
+                    </div>
+                    <div className="p-4 bg-teal-100/25 dark:bg-slate-500/25 border border-teal-400 dark:border-slate-500 rounded-md w-10/12 md:w-4/12 lg:w-3/12 text-teal-500 dark:text-slate-400 shadow-lg">
+                        <div className="flex justify-center text-7xl py-3">
+                            <MdTask />
+                        </div>
+                        <div className="text-center">
+                            <p className="text-2xl">ტესტები</p>
+                            <button className="mt-6 py-1 px-5 rounded border border-teal-500 hover:bg-teal-500 hover:text-white dark:border-slate-400 dark:hover:bg-slate-400 transition-colors duration-300">შექმნა</button>
+                        </div>
+                    </div>
+                    <div className="p-4 bg-teal-100/25 dark:bg-slate-500/25 border border-teal-400 dark:border-slate-500 rounded-md w-10/12 md:w-4/12 lg:w-3/12 text-teal-500 dark:text-slate-400 shadow-lg">
+                        <div className="flex justify-center text-7xl py-3">
+                            <FaUserGroup />
+                        </div>
+                        <div className="text-center">
+                            <p className="text-2xl">ჯგუფები</p>
+                            <button className="mt-6 py-1 px-5 rounded border border-teal-500 hover:bg-teal-500 hover:text-white dark:border-slate-400 dark:hover:bg-slate-400 transition-colors duration-300">შექმნა</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
