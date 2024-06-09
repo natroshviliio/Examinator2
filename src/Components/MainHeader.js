@@ -82,7 +82,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                 </label>
                             </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center ml-3">
                             <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
                                 <span className="sr-only">Open user menu</span>
                                 <img className="w-9 h-9 rounded-full object-cover" src="/img/profile.webp" alt="user photo" />
