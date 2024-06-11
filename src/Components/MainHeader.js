@@ -25,7 +25,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                 <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
                             </svg>
                         </button>
-                        <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-full lg:w-auto lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700 ml-auto z-[99]" id="header-navbar">
+                        <div className="hidden absolute bg-white dark:bg-slate-700 lg:static left-0 top-[95%] w-full lg:w-auto lg:flex p-2 lg:pl-11 shadow-xl lg:shadow-none rounded-b-lg transition-colors duration-700 ml-auto z-[9]" id="header-navbar">
                             <ul className="flex items-center flex-col mt-4 lg:mt-0 lg:ml-auto lg:flex-row gap-4 lg:mr-5 text-gray-600 dark:text-slate-200">
                                 <li>
                                     <Link to="/" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">

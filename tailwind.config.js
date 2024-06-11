@@ -2,7 +2,7 @@ const flowbite = require('flowbite-react/tailwind');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'selector',
+  darkMode: ['selector'],
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "node_modues/flowbite-react/lib/esm/**/*.js",
