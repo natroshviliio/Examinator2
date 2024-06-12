@@ -15,8 +15,22 @@ const CreateTest = () => {
                         <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" />
                     </div>
                 </div>
-                <div>
-
+                <div className="flex items-center">
+                    <label htmlFor="ch1" className="relative inline-flex items-center cursor-pointer">
+                        <input id="ch1" type="checkbox" className="sr-only peer" />
+                        <div
+                            className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
+                        <span
+                            className={`
+                                    absolute w-4 h-4  top-[2px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
+                                    flex items-center justify-center
+                                    text-amber-500
+                                    peer-checked:text-slate-800
+                                    text-2xl
+                                    bg-teal-400
+                                `}>
+                        </span>
+                    </label>
                 </div>
             </div>
         </div>
