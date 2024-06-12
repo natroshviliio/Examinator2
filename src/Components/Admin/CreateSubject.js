@@ -1,13 +1,21 @@
 import { Modal } from "flowbite-react";
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const CreateSubject = ({ subjectModal, hideSubjectModal }) => {
+    const [opacity, setOpacity] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setOpacity(true);
+        }, 100);
+    }, [])
+
     return (
-        <div className="absolute">
+        <div className={`absolute left-0 top-0 z-10 ${opacity ? 'opacity-75' : 'opacity-0'} transition duration-500`}>
             <div className="relative z-10 alk-sanet">
-                <div className="fixed inset-0 bg-gray-800/[.7] bg-opacity-75 transition-opacity" />
+                <div className={`fixed inset-0 bg-gray-800/[.7]`} />
 
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0">
