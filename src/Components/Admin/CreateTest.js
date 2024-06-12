@@ -4,9 +4,11 @@ import { RiArrowDownSFill } from "react-icons/ri";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 
 const CreateTest = () => {
+
     return (
         <div className="p-3 flex flex-col flex-1">
             <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex gap-3 flex-0">
@@ -48,10 +50,22 @@ const CreateTest = () => {
             </div>
             <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full flex flex-1">
                 <div className="grid w-full max-w-full">
-                    <Swiper navigation={true} slidesPerView={1} modules={[Navigation]} className="swiper">
+                    <Swiper navigation={true} slidesPerView={1} pagination={{ dinamycBullets: true }} modules={[Navigation, Pagination]} className="swiper bg-gray-100 dark:bg-slate-600/[.3] rounded-lg">
                         <SwiperSlide className="">
-                            <div>asdasd</div>
+                            <div className="p-2">
+                                <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
+                                    <span className="text-gray-700 dark:text-slate-200">შეკითხვა 1</span>
+                                </div>
+                            </div>
                         </SwiperSlide>
+                        <SwiperSlide className="">
+                            <div className="p-2">
+                                <div className="bg-teal-200 dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
+                                    <span className="text-gray-700 dark:text-slate-200">შეკითხვა 2</span>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                        {/* <div className="swiper-button-next"></div> */}
                     </Swiper>
                 </div>
             </div>
