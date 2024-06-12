@@ -1,10 +1,15 @@
 import React from "react";
 import { RiArrowDownSFill } from "react-icons/ri";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
+
 const CreateTest = () => {
     return (
-        <div className="p-3">
-            <div className="relative p-2 pt-3 border border-gray-300 rounded-md flex gap-3">
+        <div className="p-3 flex flex-col flex-1">
+            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex gap-3 flex-0">
                 <div className="absolute top-[-8px] left-[8px] text-xs bg-white dark:bg-slate-700 transition-colors duration-700">
                     <span className="text-gray-600 dark:text-slate-200">საერთო პარამეტრები</span>
                 </div>
@@ -39,6 +44,15 @@ const CreateTest = () => {
                 </div>
                 <div className="flex items-center ml-auto">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500">დასრულება</button>
+                </div>
+            </div>
+            <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full flex flex-1">
+                <div className="grid w-full max-w-full">
+                    <Swiper navigation={true} slidesPerView={1} modules={[Navigation]} className="swiper">
+                        <SwiperSlide className="">
+                            <div>asdasd</div>
+                        </SwiperSlide>
+                    </Swiper>
                 </div>
             </div>
         </div>

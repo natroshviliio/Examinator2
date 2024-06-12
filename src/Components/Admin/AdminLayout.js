@@ -149,7 +149,7 @@ const AdminLayout = () => {
                     </Accordion>
                 </div>
             </div>
-            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col flex-1 md:flex-auto p-2 rounded-md transition-colors duration-700">
+            <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col xl:basis-1/5 flex-1 md:flex-auto p-2 rounded-md transition-colors duration-700">
                 <div className="px-3 py-2">
                     <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">მენიუ</p>
                 </div>
