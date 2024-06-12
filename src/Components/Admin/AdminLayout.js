@@ -7,6 +7,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { GrCopy } from "react-icons/gr";
 import Dashboard from "./Dashboard";
 import { Accordion } from "flowbite-react";
+import CreateTest from "./CreateTest";
 
 const AdminLayout = () => {
     return (
@@ -150,9 +151,10 @@ const AdminLayout = () => {
             </div>
             <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col flex-1 md:flex-auto p-2 rounded-md transition-colors duration-700">
                 <div className="px-3 py-2">
-                    <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">დაფა</p>
+                    <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">მენიუ</p>
                 </div>
-                <Dashboard />
+                {/* <Dashboard /> */}
+                <CreateTest />
             </div>
         </div>
     );
