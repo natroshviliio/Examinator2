@@ -11,11 +11,11 @@ const CreateTest = () => {
 
     return (
         <div className="p-3 flex flex-col flex-1">
-            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex gap-3 flex-0">
+            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col lg:flex-row gap-3 flex-0">
                 <div className="absolute top-[-8px] left-[8px] text-xs bg-white dark:bg-slate-700 transition-colors duration-700">
                     <span className="text-gray-600 dark:text-slate-200">საერთო პარამეტრები</span>
                 </div>
-                <div className="relative w-2/12 group">
+                <div className="relative w-full lg:w-2/12 group">
                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
@@ -44,7 +44,7 @@ const CreateTest = () => {
                         <span className="mt-0 hidden peer-checked:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
                 </div>
-                <div className="flex items-center ml-auto">
+                <div className="flex items-center lg:ml-auto">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500">დასრულება</button>
                 </div>
             </div>
