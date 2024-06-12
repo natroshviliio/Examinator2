@@ -5,38 +5,41 @@ import React from "react";
 
 const CreateSubject = ({ subjectModal, hideSubjectModal }) => {
     return (
-        <Transition show={subjectModal}>
-            <div className="relative z-10 alk-sanet" onClose={hideSubjectModal}>
+        <div className="absolute">
+            <div className="relative z-10 alk-sanet">
                 <div className="fixed inset-0 bg-gray-800/[.7] bg-opacity-75 transition-opacity" />
 
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0">
+                        <div className="relative transform overflow-hidden sm:rounded-lg bg-white dark:bg-slate-600 text-left shadow-xl transition-all sm:my-8 w-screen h-screen sm:h-auto sm:w-full sm:max-w-lg">
                             <div className="bg-white dark:bg-slate-600 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 თემატიკის დამატება
                             </div>
-                            <div className="bg-gray-50 dark:bg-slate-600 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                            <div className="p-3 flex">
+                                <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300" placeholder="თემატიკის სახელი" />
+                            </div>
+                            <div className="bg-gray-50 dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex sm:px-6">
                                 <button
                                     type="button"
-                                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                                    className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
                                     onClick={hideSubjectModal}
                                 >
-                                    Deactivate
+                                    დამატება
                                 </button>
                                 <button
                                     type="button"
-                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                    className="inline-flex w-full justify-center rounded-md bg-emerald-400 hover:bg-emerald-500 dark:bg-gray-400 dark:hover:bg-gray-500 px-3 py-2 text-md text-white shadow-sm sm:mt-0 sm:w-auto"
                                     onClick={hideSubjectModal}
                                     data-autofocus
                                 >
-                                    Cancel
+                                    გაუქმება
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </Transition>
+        </div>
     )
 };
 
