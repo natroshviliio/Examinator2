@@ -18,7 +18,7 @@ const CreateSubject = ({ subjectModal, hideSubjectModal }) => {
                             <div className="p-3 flex">
                                 <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700" placeholder="თემატიკის სახელი" />
                             </div>
-                            <div className="bg-gray-50 dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex sm:px-6">
+                            <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex sm:px-6">
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
