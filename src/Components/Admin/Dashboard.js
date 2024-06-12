@@ -6,7 +6,7 @@ import { MdTask } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import CreateSubject from "./CreateSubject";
 
-const Dashboard = () => {
+const Dashboard = ({ createTest, setCreateTest }) => {
     const [subjectModal, setSubjectModal] = useState(false);
     const openSubjectModal = () => setSubjectModal(true);
     const hideSubjectModal = () => setSubjectModal(false);
@@ -29,7 +29,7 @@ const Dashboard = () => {
                 </div>
                 <div className="text-center">
                     <p className="text-2xl">ტესტები</p>
-                    <button className="mt-6 py-1 px-5 rounded border border-teal-500 hover:bg-teal-500 hover:text-white dark:border-slate-400 dark:hover:bg-slate-400 transition-colors duration-300">დამატება</button>
+                    <button className="mt-6 py-1 px-5 rounded border border-teal-500 hover:bg-teal-500 hover:text-white dark:border-slate-400 dark:hover:bg-slate-400 transition-colors duration-300" onClick={() => setCreateTest(true)}>დამატება</button>
                 </div>
             </div>
             <div className="p-4 bg-teal-100/25 hover:bg-teal-100 dark:bg-slate-500/25 dark:hover:bg-slate-500/50 border border-teal-400 dark:border-slate-500 rounded-md w-11/12 md:w-4/12 lg:w-3/12 text-teal-500 dark:text-slate-400 shadow-lg transition-colors duration-500">
