@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import "alk-sanet/css/alk-sanet.min.css";
+import "/node_modules/bpg-arial/css/bpg-arial.min.css";
 import MainHeader from "./Components/MainHeader";
 import Login from "./Components/Login";
 

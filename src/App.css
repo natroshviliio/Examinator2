@@ -11,6 +11,10 @@
 	font-family: 'ALK Sanet', sans-serif !important;
 }
 
+.bpg-arial {
+	font-family: 'BPG Arial', sans-serif !important;
+}
+
 .overflow-v::-webkit-scrollbar {
 	/* display: none; */
 }

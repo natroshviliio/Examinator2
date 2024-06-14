@@ -14,5 +14,6 @@ module.exports = {
     },
   },
   plugins: [flowbite.plugin()],
+  // important: "#editor",
 }
 
