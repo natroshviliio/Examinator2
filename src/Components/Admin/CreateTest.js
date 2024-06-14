@@ -166,7 +166,7 @@ const CreateTest = () => {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-1 py-1 text-3xl rounded-md hover:bg-teal-400 dark:hover:bg-slate-500"><AiOutlineFullscreen /></button>
+                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-teal-400 dark:hover:bg-slate-500"><AiOutlineFullscreen /></button>
                                             </div>
                                             <div className="overflow-y-auto overflow-v">
                                                 <CodeEditor minHeight={300} onKeyDown={handleKeyDown} value={code} onKeyUp={changeCode} language={selectedLanguage.value} scr placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white rounded-md !border !border-teal-300 bpg-arial overflow-v" />
