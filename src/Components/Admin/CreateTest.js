@@ -11,6 +11,7 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import "@uiw/react-textarea-code-editor/dist.css";
 
 import { AiOutlineFullscreen } from "react-icons/ai";
+import CodePreviewModal from "./CodePreviewModal";
 
 const CreateTest = () => {
     const [selectLanguage, setSelectLanguage] = useState(false);
@@ -47,6 +48,10 @@ const CreateTest = () => {
 
     const [code, setCode] = useState('');
     const [codePreview, setCodePreview] = useState('');
+
+    const [isCodePreview, setIsCodePreview] = useState(false);
+    const showCodePreview = () => setIsCodePreview(true);
+    const hideCodePreview = () => setIsCodePreview(false);
 
     const changeCode = (e) => {
         setCode(e.target.value);
@@ -166,7 +171,7 @@ const CreateTest = () => {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-teal-400 dark:hover:bg-slate-500"><AiOutlineFullscreen /></button>
+                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-teal-400 dark:hover:bg-slate-500" onClick={showCodePreview}><AiOutlineFullscreen /></button>
                                             </div>
                                             <div className="overflow-y-auto overflow-v">
                                                 <CodeEditor minHeight={300} onKeyDown={handleKeyDown} value={code} onKeyUp={changeCode} language={selectedLanguage.value} scr placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white rounded-md !border !border-teal-300 bpg-arial overflow-v" />
@@ -418,6 +423,7 @@ const CreateTest = () => {
                     </Swiper>
                 </div>
             </div>
+            {isCodePreview && <CodePreviewModal isCodePreview={isCodePreview} hideCodePreview={hideCodePreview} />}
         </div>
     );
 };
