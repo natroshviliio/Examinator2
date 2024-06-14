@@ -61,7 +61,7 @@ const CreateTest = () => {
             const end = editor.selectionEnd;
 
             // Define the number of spaces you want for a TAB
-            const tabSpaces = '   '; // 4 spaces
+            const tabSpaces = '       '; // 4 spaces
 
             // Set the new value with the tabSpaces inserted at the cursor position
             editor.value = editor.value.substring(0, start) + tabSpaces + editor.value.substring(end);
@@ -125,7 +125,7 @@ const CreateTest = () => {
                                 <div className="p-2 w-full flex flex-col overflow-hidden">
                                     <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
                                         <div id="editor" className="lg:w-5/12 p-2 flex flex-col overflow-hidden gap-3">
-                                            <textarea className="w-full rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-12 max-h-[16rem]" placeholder="შეკითხვა..."></textarea>
+                                            <textarea className="w-full bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-12 max-h-[16rem]" placeholder="შეკითხვა..."></textarea>
                                             <label htmlFor="codeMode" className="relative inline-flex gap-3 items-center cursor-pointer">
                                                 <input id="codeMode" type="checkbox" className="sr-only peer" />
                                                 <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
