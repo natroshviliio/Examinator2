@@ -5,7 +5,6 @@ import "/node_modules/bpg-arial/css/bpg-arial.min.css";
 import MainHeader from "./Components/MainHeader";
 import Login from "./Components/Login";
 
-import { initFlowbite } from "flowbite";
 import AdminLayout from "./Components/Admin/AdminLayout";
 import Loading from "./Components/Loading";
 
@@ -30,7 +29,6 @@ function App() {
     };
 
     useEffect(() => {
-        initFlowbite();
         const _darkMode = localStorage.getItem("darkMode");
         if (_darkMode === "false") setDarkMode(false);
         else setDarkMode(true);

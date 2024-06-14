@@ -1,6 +1,3 @@
-import { Modal } from "flowbite-react";
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
-
 import React, { useEffect, useState } from "react";
 
 const CreateSubject = ({ subjectModal, hideSubjectModal }) => {

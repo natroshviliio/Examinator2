@@ -47,3 +47,20 @@ body::-webkit-scrollbar-thumb {
 	height: 100%;
 	display: flex;
 }
+
+.clearfix {
+	overflow: hidden;
+}
+.clearfix:before,
+.clearfix:after {
+	content: '.';
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+.clearfix:after {
+	clear: both;
+}
+.clearfix {
+	zoom: 1;
+}
