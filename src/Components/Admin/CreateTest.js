@@ -423,7 +423,7 @@ const CreateTest = () => {
                     </Swiper>
                 </div>
             </div>
-            {isCodePreview && <CodePreviewModal isCodePreview={isCodePreview} hideCodePreview={hideCodePreview} />}
+            {isCodePreview && <CodePreviewModal isCodePreview={isCodePreview} hideCodePreview={hideCodePreview} codePreview={codePreview} />}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const CodePreviewModal = ({ isCodePreview, hideCodePreview }) => {
+const CodePreviewModal = ({ isCodePreview, hideCodePreview, codePreview }) => {
     const [opacity, setOpacity] = useState(false);
 
 
@@ -19,10 +19,10 @@ const CodePreviewModal = ({ isCodePreview, hideCodePreview }) => {
                     <div className="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0">
                         <div className="relative transform overflow-hidden sm:rounded-lg bg-white dark:bg-slate-600 text-left shadow-xl transition-all sm:my-8 w-screen h-screen sm:h-auto sm:w-full sm:max-w-lg">
                             <div className="text-gray-600 dark:text-slate-200 dark:bg-slate-600 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                თემატიკის დამატება
+                                კოდის გადახედვა
                             </div>
-                            <div className="p-3 flex">
-                                <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700" placeholder="თემატიკის სახელი" />
+                            <div className="p-3">
+                                <div className="w-full" dangerouslySetInnerHTML={{ __html: codePreview }}></div>
                             </div>
                             <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex flex-col sm:flex-row sm:px-6">
                                 <button
