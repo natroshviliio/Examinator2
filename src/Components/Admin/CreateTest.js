@@ -16,9 +16,26 @@ import { useExaminatorStore } from "../../App";
 
 const CreateTest = () => {
     const { darkMode } = useExaminatorStore();
+
+    const [slides, setSlides] = useState([
+        {
+            question: '',
+            codeMode: false,
+            selectedLanguage: { name: "C", value: "c" },
+            code: '',
+            codePreview: '',
+            answers: [
+                {
+                    answer: '',
+                    isCorrect: false
+                },
+            ]
+        }
+    ])
+
     const [selectLanguage, setSelectLanguage] = useState(false);
 
-    const [languages, setLanguages] = useState([
+    const [languages] = useState([
         { name: "C", value: "c" },
         { name: "C++", value: "cpp" },
         { name: "C#", value: "csharp" },
@@ -42,29 +59,71 @@ const CreateTest = () => {
         { name: "c", value: "c" },
         { name: "c", value: "c" },
     ])
-    const [selectedLanguage, setSelectedLanguage] = useState({ name: "C", value: "c" });
-    const selLanguage = (lang) => {
-        setSelectedLanguage(lang);
-        setSelectLanguage(false);
-    }
 
-    const [code, setCode] = useState('');
     const [codePreview, setCodePreview] = useState('');
 
     const [isCodePreview, setIsCodePreview] = useState(false);
-    const showCodePreview = () => setIsCodePreview(true);
-    const hideCodePreview = () => setIsCodePreview(false);
-
-    const changeCode = (e) => {
-        setCode(e.target.value);
-        const preview = document.querySelector('.w-tc-editor-preview');
-        setCodePreview(`<div id='editor-preview' data-color-mode=${darkMode ? 'dark' : 'light'} class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`);
+    const showCodePreview = (p) => {
+        setCodePreview(p);
+        setIsCodePreview(true);
+    }
+    const hideCodePreview = () => {
+        setCodePreview('');
+        setIsCodePreview(false);
     }
 
-    const handleKeyDown = (e) => {
+    //CREEATE TEST
+    const insertNewTest = () => {
+        setSlides([
+            ...slides,
+            {
+                question: '',
+                codeMode: false,
+                selectedLanguage: { name: "C", value: "c" },
+                code: '',
+                codePreview: '',
+                answers: [
+                    {
+                        answer: '',
+                        isCorrect: false
+                    },
+                ]
+            }
+        ])
+    }
+
+    const handleChangeQuestion = (e, i) => {
+        const _slides = [...slides];
+        _slides[i].question = e.target.value;
+        setSlides(_slides);
+    }
+
+    const handleChangeCodeMode = (e, i) => {
+        const _slides = [...slides];
+        _slides[i].codeMode = e.target.checked;
+        setSlides(_slides);
+    }
+
+    const handleChangeLanguage = (lang, i) => {
+        const _slides = [...slides];
+        _slides[i].selectedLanguage = lang;
+        setSelectLanguage(false);
+        setSlides(_slides);
+    }
+
+    const handleChangeCode = (e, i) => {
+        const _slides = [...slides];
+        _slides[i].code = e.target.value;
+        const preview = document.getElementById(`editor-${i}`).parentNode.childNodes[1];
+        _slides[i].codePreview = `<div id='editor-preview' data-color-mode=${darkMode ? 'dark' : 'light'} class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`;
+        setSlides(_slides);
+    }
+
+    const handleKeyDown = (e, i) => {
         if (e.key === 'Tab') {
-            e.preventDefault();
             const editor = e.target;
+            e.preventDefault();
+
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
 
@@ -73,10 +132,62 @@ const CreateTest = () => {
             editor.value = editor.value.substring(0, start) + tabSpaces + editor.value.substring(end);
 
             editor.selectionStart = editor.selectionEnd = start + tabSpaces.length;
-
-            setCode(editor.value);
+            const _slides = [...slides];
+            _slides[i].code = editor.value;
+            const preview = document.getElementById(`editor-${i}`).parentNode.childNodes[1];
+            _slides[i].codePreview = `<div id='editor-preview' data-color-mode=${darkMode ? 'dark' : 'light'} class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`;
+            setSlides(_slides);
         }
     };
+
+    const handleChangeAnswer = (e, i, j) => {
+        const _slides = [...slides];
+        _slides[i].answers[j].answer = e.target.value;
+        setSlides(_slides);
+    }
+
+    const handleChangeAnswerIsCorrect = (e, i, j) => {
+        const _slides = [...slides];
+        _slides[i].answers[j].isCorrect = e.target.checked;
+        setSlides(_slides);
+    }
+
+    const handleAddNextAnswer = (i) => {
+        const _slides = [...slides];
+        _slides[i].answers = [
+            ..._slides[i].answers,
+            {
+                answer: '',
+                isCorrect: false
+            },
+        ]
+
+        setSlides(_slides);
+    }
+
+    const handleAdd4StandardAnswers = (i) => {
+        const _slides = [...slides];
+        _slides[i].answers = [
+            {
+                answer: '',
+                isCorrect: false
+            },
+            {
+                answer: '',
+                isCorrect: false
+            },
+            {
+                answer: '',
+                isCorrect: false
+            },
+            {
+                answer: '',
+                isCorrect: false
+            },
+        ]
+
+        setSlides(_slides);
+    }
 
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
@@ -112,29 +223,31 @@ const CreateTest = () => {
                         <span className="mt-0 block peer-checked:hidden text-gray-600 dark:text-slate-200">ინდივიდუალური დრო</span>
                         <span className="mt-0 hidden peer-checked:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
-                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit">მომდევნო შეკითხვის დამატება</button>
+                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვის დამატება</button>
                 </div>
                 <div className="flex items-center lg:ml-auto">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500">დასრულება</button>
                 </div>
             </div>
-            <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full overflow-hidden flex">
+            <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full overflow-hidden flex flex-1">
                 <div className="grid w-full max-w-full overflow-hidden">
                     <Swiper slidesPerView={1} pagination={{ dinamycBullets: true, clickable: true }} modules={[Pagination]} className="swiper bg-gray-100 dark:bg-slate-600/[.3] rounded-lg">
-                        <SwiperSlide className="flex overflow-hidden">
-                            <div className="p-2 h-full flex flex-col overflow-hidden">
-                                <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
-                                    <span className="text-gray-700 dark:text-slate-200">შეკითხვა 1</span>
-                                </div>
-                                <div className="p-2 w-full flex flex-col overflow-hidden">
-                                    <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
-                                        <div id="editor" className="lg:w-5/12 p-2 flex flex-col overflow-hidden gap-3">
-                                            <textarea className="w-full bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-12 max-h-[16rem]" placeholder="შეკითხვა..."></textarea>
-                                            <label htmlFor="codeMode" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                <input id="codeMode" type="checkbox" className="sr-only peer" />
-                                                <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                <span
-                                                    className={`
+                        {slides?.map((slide, i) => {
+                            return (
+                                <SwiperSlide key={i} className="flex overflow-hidden">
+                                    <div className="p-2 h-full flex flex-col overflow-hidden">
+                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
+                                            <span className="text-gray-700 dark:text-slate-200">შეკითხვა {i + 1}</span>
+                                        </div>
+                                        <div className="p-2 w-full flex flex-col overflow-hidden">
+                                            <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
+                                                <div id="editor" className="lg:w-5/12 p-2 flex flex-col overflow-hidden gap-3">
+                                                    <textarea className="w-full bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-12 max-h-[16rem]" name="question" value={slide.question} onChange={e => handleChangeQuestion(e, i)} placeholder="შეკითხვა..."></textarea>
+                                                    <label htmlFor={`codeMode-${i}`} className="relative inline-flex gap-3 items-center cursor-pointer">
+                                                        <input id={`codeMode-${i}`} type="checkbox" checked={slide.codeMode} onChange={e => handleChangeCodeMode(e, i)} className="sr-only peer" />
+                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
+                                                        <span
+                                                            className={`
                                                             absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
                                                             flex items-center justify-center
                                                             text-amber-500
@@ -143,280 +256,79 @@ const CreateTest = () => {
                                                             bg-teal-400
                                                             dark:bg-slate-500
                                                         `}>
-                                                </span>
-                                                <span className="text-emerald-400 dark:text-slate-200 transition-all duration-300">კოდი</span>
-                                            </label>
-                                            <div className="flex gap-3">
-                                                <div className="relative inline-block text-left w-fit bpg-arial">
-                                                    <div>
-                                                        <button type="button" onClick={() => setSelectLanguage(!selectLanguage)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                                                            {selectedLanguage.name}
-                                                            <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                    {selectLanguage && (
-                                                        <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                                                            <div className="py-1" role="none">
-                                                                {languages.map((x, i) => {
-                                                                    return (
-                                                                        <button href="#" key={i} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => selLanguage(x))}>{x.name}</button>
-                                                                    )
-                                                                })}
+                                                        </span>
+                                                        <span className="text-emerald-400 dark:text-slate-200 transition-all duration-300">კოდი</span>
+                                                    </label>
+                                                    {slide.codeMode && (
+                                                        <>
+                                                            <div className="flex gap-3">
+                                                                <div className="relative inline-block text-left w-fit bpg-arial">
+                                                                    <div>
+                                                                        <button type="button" onClick={() => setSelectLanguage(!selectLanguage)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                                                            {slide.selectedLanguage.name}
+                                                                            <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
+                                                                    {selectLanguage && (
+                                                                        <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                                                            <div className="py-1" role="none">
+                                                                                {languages.map((x, j) => {
+                                                                                    return (
+                                                                                        <button href="#" key={j} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => handleChangeLanguage(x, i))}>{x.name}</button>
+                                                                                    )
+                                                                                })}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-gray-200 dark:hover:bg-slate-500" onClick={() => showCodePreview(slide.codePreview)}><AiOutlineFullscreen /></button>
                                                             </div>
-                                                        </div>
+                                                            <div className="overflow-y-auto overflow-v">
+                                                                <CodeEditor id={`editor-${i}`} data-color-mode={darkMode ? 'dark' : 'light'} minHeight={300} onKeyDown={e => handleKeyDown(e, i)} value={slide.code} onKeyUp={e => handleChangeCode(e, i)} language={slide.selectedLanguage.value} placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white dark:edtr dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v dark:placeholder:text-gray-200" />
+                                                            </div>
+                                                        </>
                                                     )}
                                                 </div>
-                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-gray-200 dark:hover:bg-slate-500" onClick={showCodePreview}><AiOutlineFullscreen /></button>
-                                            </div>
-                                            <div className="overflow-y-auto overflow-v">
-                                                <CodeEditor data-color-mode={darkMode ? 'dark' : 'light'} minHeight={300} onKeyDown={handleKeyDown} value={code} onKeyUp={changeCode} language={selectedLanguage.value} placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white dark:edtr dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v dark:placeholder:text-gray-200" />
-                                            </div>
-                                        </div>
-                                        <div className="p-2 lg:w-7/12 flex flex-col gap-4 overflow-y-auto overflow-v">
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 1</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch2" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch2" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch3" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch3" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch4" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch4" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch5" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch5" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch6" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch6" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch7" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch7" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
+                                                <div className="p-2 lg:w-7/12 flex flex-col gap-4 overflow-y-auto overflow-v">
+                                                    {slide.answers.map((answer, j) => {
+                                                        return (
+                                                            <div key={j} className="relative p-3 border border-teal-300 rounded">
+                                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი {j + 1}</span></div>
+                                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
+                                                                    <textarea className="border-teal-300 bpg-arial rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" name="answer" value={answer.answer} onChange={e => handleChangeAnswer(e, i, j)} placeholder="პასუხი..."></textarea>
+                                                                    <label htmlFor={`correctAns-${i}-${j}`} className="relative inline-flex gap-3 items-center cursor-pointer">
+                                                                        <input id={`correctAns-${i}-${j}`} type="checkbox" checked={answer.isCorrect} onChange={e => handleChangeAnswerIsCorrect(e, i, j)} className="sr-only peer" />
+                                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
+                                                                        <span
+                                                                            className={`
+                                                                                absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
+                                                                                flex items-center justify-center
+                                                                                text-amber-500
+                                                                                peer-checked:text-slate-800
+                                                                                text-2xl
+                                                                                bg-teal-400
+                                                                                dark:bg-slate-500
+                                                                            `}>
+                                                                        </span>
+                                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                    <div className="flex flex-col xl:flex-row gap-3">
+                                                        <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 lg:w-6/12" onClick={() => handleAddNextAnswer(i)}>სავარაუდო პასუხის დამატება</button>
+                                                        <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 lg:w-6/12" onClick={() => handleAdd4StandardAnswers(i)}>სტანდარტული 4 სავარაუდო პასუხი</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className="flex overflow-hidden">
-                            <div className="p-2 h-full flex flex-col overflow-hidden">
-                                <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
-                                    <span className="text-gray-700 dark:text-slate-200">შეკითხვა 1</span>
-                                </div>
-                                <div className="p-2 w-full flex flex-col overflow-hidden">
-                                    <div className="w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
-                                        <div className="lg:w-5/12">
-                                            <textarea className="w-full rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-10 max-h-[8rem]" placeholder="შეკითხვა..."></textarea>
-                                        </div>
-                                        <div className="p-2 lg:w-7/12 flex flex-col gap-4 overflow-y-auto overflow-v">
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 1</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch8" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch8" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch9" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch9" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch10" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch10" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="relative p-3 border border-teal-300 rounded">
-                                                <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი 2</span></div>
-                                                <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                    <textarea className="border-teal-300 rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" placeholder="პასუხი..."></textarea>
-                                                    <label htmlFor="ch11" className="relative inline-flex gap-3 items-center cursor-pointer">
-                                                        <input id="ch11" type="checkbox" className="sr-only peer" />
-                                                        <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                                                        <span
-                                                            className={`
-                                                            absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                                            flex items-center justify-center
-                                                            text-amber-500
-                                                            peer-checked:text-slate-800
-                                                            text-2xl
-                                                            bg-teal-400
-                                                            dark:bg-slate-500
-                                                        `}>
-                                                        </span>
-                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        {/* <div className="swiper-button-next"></div> */}
+                                </SwiperSlide>
+                            )
+                        })}
                     </Swiper>
                 </div>
             </div>

@@ -13,9 +13,8 @@ import { create } from "zustand";
 
 export const useExaminatorStore = create((set, get) => ({
     darkMode: false,
-    setDarkMode: () => {
-        const { darkMode } = get();
-        set({ darkMode: !darkMode });
+    setDarkMode: (mode) => {
+        set({ darkMode: mode });
     }
 }))
 
@@ -39,8 +38,9 @@ function App() {
 
     useEffect(() => {
         const _darkMode = localStorage.getItem("darkMode");
-        if (_darkMode === "false") setDarkMode(false);
-        else setDarkMode(true);
+        console.log(_darkMode);
+        if (_darkMode === "true") setDarkMode(true);
+        else setDarkMode(false);
 
         const scroll = document.querySelector("body");
         scroll.style.overflow = "hidden";
