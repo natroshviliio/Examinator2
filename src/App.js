@@ -9,9 +9,18 @@ import Loading from "./Components/Loading";
 
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
+import { create } from "zustand";
+
+export const useExaminatorStore = create((set, get) => ({
+    darkMode: false,
+    setDarkMode: () => {
+        const { darkMode } = get();
+        set({ darkMode: !darkMode });
+    }
+}))
 
 function App() {
-    const [darkMode, setDarkMode] = useState(false);
+    const { darkMode, setDarkMode } = useExaminatorStore();
     const [moding, setModing] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);

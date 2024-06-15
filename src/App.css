@@ -48,19 +48,11 @@ body::-webkit-scrollbar-thumb {
 	display: flex;
 }
 
-.clearfix {
-	overflow: hidden;
+.dark\:edtr:where(.dark, .dark *) .token.punctuation,
+.dark\:edtr:where(.dark, .dark *) .token.punctuation {
+	color: white !important;
 }
-.clearfix:before,
-.clearfix:after {
-	content: '.';
-	display: block;
-	height: 0;
-	overflow: hidden;
-}
-.clearfix:after {
-	clear: both;
-}
-.clearfix {
-	zoom: 1;
+
+.dark\:placeholder\:text-gray-200:where(.dark, .dark *) .w-tc-editor-text::placeholder {
+	color: rgb(229 231 235 / var(--tw-text-opacity));
 }

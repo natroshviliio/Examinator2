@@ -8,12 +8,14 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import "@uiw/react-textarea-code-editor/dist.css";
+// import "@uiw/react-textarea-code-editor/dist.css";
 
 import { AiOutlineFullscreen } from "react-icons/ai";
 import CodePreviewModal from "./CodePreviewModal";
+import { useExaminatorStore } from "../../App";
 
 const CreateTest = () => {
+    const { darkMode } = useExaminatorStore();
     const [selectLanguage, setSelectLanguage] = useState(false);
 
     const [languages, setLanguages] = useState([
@@ -56,8 +58,7 @@ const CreateTest = () => {
     const changeCode = (e) => {
         setCode(e.target.value);
         const preview = document.querySelector('.w-tc-editor-preview');
-        console.log(preview);
-        setCodePreview(`<div class='w-tc-editor !text-[1rem] !bg-white rounded-md !border !border-teal-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`);
+        setCodePreview(`<div id='editor-preview' data-color-mode=${darkMode ? 'dark' : 'light'} class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`);
     }
 
     const handleKeyDown = (e) => {
@@ -67,16 +68,12 @@ const CreateTest = () => {
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
 
-            // Define the number of spaces you want for a TAB
-            const tabSpaces = '       '; // 4 spaces
+            const tabSpaces = '       ';
 
-            // Set the new value with the tabSpaces inserted at the cursor position
             editor.value = editor.value.substring(0, start) + tabSpaces + editor.value.substring(end);
 
-            // Move the cursor
             editor.selectionStart = editor.selectionEnd = start + tabSpaces.length;
 
-            // Trigger the onChange event if needed
             setCode(editor.value);
         }
     };
@@ -152,7 +149,7 @@ const CreateTest = () => {
                                             <div className="flex gap-3">
                                                 <div className="relative inline-block text-left w-fit bpg-arial">
                                                     <div>
-                                                        <button type="button" onClick={() => setSelectLanguage(!selectLanguage)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                                        <button type="button" onClick={() => setSelectLanguage(!selectLanguage)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
                                                             {selectedLanguage.name}
                                                             <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                 <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
@@ -171,10 +168,10 @@ const CreateTest = () => {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-teal-400 dark:hover:bg-slate-500" onClick={showCodePreview}><AiOutlineFullscreen /></button>
+                                                <button className="bg-white dark:bg-slate-500 text-gray-600 dark:text-white px-1 py-0 text-3xl rounded-md hover:bg-gray-200 dark:hover:bg-slate-500" onClick={showCodePreview}><AiOutlineFullscreen /></button>
                                             </div>
                                             <div className="overflow-y-auto overflow-v">
-                                                <CodeEditor minHeight={300} onKeyDown={handleKeyDown} value={code} onKeyUp={changeCode} language={selectedLanguage.value} scr placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white rounded-md !border !border-teal-300 bpg-arial overflow-v" />
+                                                <CodeEditor data-color-mode={darkMode ? 'dark' : 'light'} minHeight={300} onKeyDown={handleKeyDown} value={code} onKeyUp={changeCode} language={selectedLanguage.value} placeholder="დაწერეთ კოდი" className="p-2 !text-[1rem] !bg-white dark:edtr dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v dark:placeholder:text-gray-200" />
                                             </div>
                                         </div>
                                         <div className="p-2 lg:w-7/12 flex flex-col gap-4 overflow-y-auto overflow-v">
@@ -423,7 +420,7 @@ const CreateTest = () => {
                     </Swiper>
                 </div>
             </div>
-            {isCodePreview && <CodePreviewModal isCodePreview={isCodePreview} hideCodePreview={hideCodePreview} codePreview={codePreview} />}
+            {isCodePreview && <CodePreviewModal darkMode={darkMode} hideCodePreview={hideCodePreview} codePreview={codePreview} />}
         </div>
     );
 };
