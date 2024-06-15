@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiArrowDownSFill } from "react-icons/ri";
+import { BsTrash3Fill } from "react-icons/bs";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -47,17 +48,19 @@ const CreateTest = () => {
         { name: "Kotlin", value: "kotlin" },
         { name: "R", value: "r" },
         { name: "JSON", value: "json" },
+        { name: "MongoDB", value: "mongodb" },
         { name: "JavaScript", value: "js" },
+        { name: "TypeScript", value: "typescript" },
         { name: "HTML", value: "html" },
         { name: "CSS", value: "css" },
         { name: "SCSS", value: "scss" },
         { name: "SASS", value: "sass" },
         { name: "JSX", value: "jsx" },
+        { name: "TSX", value: "tsx" },
         { name: "SQL", value: "sql" },
-        { name: "c", value: "c" },
-        { name: "c", value: "c" },
-        { name: "c", value: "c" },
-        { name: "c", value: "c" },
+        { name: "Graphql", value: "graphql" },
+        { name: "ASP .NET", value: "aspnet" },
+        { name: "CSHTML", value: "cshtml" },
     ])
 
     const [codePreview, setCodePreview] = useState('');
@@ -74,7 +77,7 @@ const CreateTest = () => {
 
     //CREEATE TEST
     const insertNewTest = () => {
-        setSlides([
+        const _slides = [
             ...slides,
             {
                 question: '',
@@ -89,7 +92,16 @@ const CreateTest = () => {
                     },
                 ]
             }
-        ])
+        ];
+        setSlides(_slides);
+        // swiper.slideTo(_slides.length - 1, 1000);
+        // console.log(swiper);
+    }
+
+    const deleteCurrentTest = (i) => {
+        let _slides = [...slides];
+        _slides = _slides.filter((_, j) => j !== i);
+        setSlides(_slides);
     }
 
     const handleChangeQuestion = (e, i) => {
@@ -189,6 +201,12 @@ const CreateTest = () => {
         setSlides(_slides);
     }
 
+    const deleteCurrentAnswer = (i, j) => {
+        const _slides = [...slides];
+        _slides[i].answers = _slides[i].answers.filter((_, k) => k !== j);
+        setSlides(_slides);
+    }
+
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
             <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col lg:flex-row gap-3 flex-0">
@@ -232,12 +250,14 @@ const CreateTest = () => {
             <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full overflow-hidden flex flex-1">
                 <div className="grid w-full max-w-full overflow-hidden">
                     <Swiper slidesPerView={1} pagination={{ dinamycBullets: true, clickable: true }} modules={[Pagination]} className="swiper bg-gray-100 dark:bg-slate-600/[.3] rounded-lg">
+                        <SwipeToLast lastSwiper={slides.length} />
                         {slides?.map((slide, i) => {
                             return (
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
-                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)]">
+                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center">
                                             <span className="text-gray-700 dark:text-slate-200">შეკითხვა {i + 1}</span>
+                                            {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 hover:text-red-700" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
                                         </div>
                                         <div className="p-2 w-full flex flex-col overflow-hidden">
                                             <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
@@ -297,7 +317,7 @@ const CreateTest = () => {
                                                             <div key={j} className="relative p-3 border border-teal-300 rounded">
                                                                 <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი {j + 1}</span></div>
                                                                 <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
-                                                                    <textarea className="border-teal-300 bpg-arial rounded-md 2xl:w-8/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" name="answer" value={answer.answer} onChange={e => handleChangeAnswer(e, i, j)} placeholder="პასუხი..."></textarea>
+                                                                    <textarea className="border-teal-300 bpg-arial rounded-md 2xl:w-7/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" name="answer" value={answer.answer} onChange={e => handleChangeAnswer(e, i, j)} placeholder="პასუხი..."></textarea>
                                                                     <label htmlFor={`correctAns-${i}-${j}`} className="relative inline-flex gap-3 items-center cursor-pointer">
                                                                         <input id={`correctAns-${i}-${j}`} type="checkbox" checked={answer.isCorrect} onChange={e => handleChangeAnswerIsCorrect(e, i, j)} className="sr-only peer" />
                                                                         <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
@@ -312,8 +332,10 @@ const CreateTest = () => {
                                                                                 dark:bg-slate-500
                                                                             `}>
                                                                         </span>
-                                                                        <span className="opacity-0 peer-checked:opacity-100 text-emerald-400 transition-all duration-300">სწორი პასუხი</span>
+                                                                        <span className="hidden peer-checked:block text-emerald-400">სწორი პასუხი</span>
+                                                                        <span className="block peer-checked:hidden text-red-500 dark:text-red-400">არასწორი პასუხი</span>
                                                                     </label>
+                                                                    {j > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 hover:text-red-700" onClick={() => deleteCurrentAnswer(i, j)}><BsTrash3Fill /></span>}
                                                                 </div>
                                                             </div>
                                                         )
@@ -336,5 +358,15 @@ const CreateTest = () => {
         </div>
     );
 };
+
+const SwipeToLast = ({ lastSwiper }) => {
+    const swiper = useSwiper();
+
+    useEffect(() => {
+        swiper.slideTo(lastSwiper);
+    }, [lastSwiper]);
+
+    return null;
+}
 
 export default CreateTest;
