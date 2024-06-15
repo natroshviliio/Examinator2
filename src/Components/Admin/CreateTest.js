@@ -33,6 +33,8 @@ const CreateTest = () => {
             ]
         }
     ])
+    const [slideDropdown, setSlideDropdown] = useState(false);
+    const [slideNavigator, setSlideNavigator] = useState(0);
 
     const [selectLanguage, setSelectLanguage] = useState(false);
 
@@ -242,6 +244,27 @@ const CreateTest = () => {
                         <span className="mt-0 hidden peer-checked:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვის დამატება</button>
+                    <div className="relative inline-block text-left w-fit bpg-arial">
+                        <div>
+                            <button type="button" onClick={() => setSlideDropdown(!slideDropdown)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                ტესტის ნავიგატორი
+                                <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        {slideDropdown && (
+                            <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                <div className="py-1" role="none">
+                                    {slides.map((_, j) => {
+                                        return (
+                                            <button key={j} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => setSlideNavigator(j))}>შეკითხვა {j + 1}</button>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="flex items-center lg:ml-auto">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500">დასრულება</button>
@@ -251,13 +274,14 @@ const CreateTest = () => {
                 <div className="grid w-full max-w-full overflow-hidden">
                     <Swiper slidesPerView={1} pagination={{ dinamycBullets: true, clickable: true }} modules={[Pagination]} className="swiper bg-gray-100 dark:bg-slate-600/[.3] rounded-lg">
                         <SwipeToLast lastSwiper={slides.length} />
+                        <SwipeToIndex slideNavigator={slideNavigator} />
                         {slides?.map((slide, i) => {
                             return (
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
                                         <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center">
                                             <span className="text-gray-700 dark:text-slate-200">შეკითხვა {i + 1}</span>
-                                            {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 hover:text-red-700" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
+                                            {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
                                         </div>
                                         <div className="p-2 w-full flex flex-col overflow-hidden">
                                             <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
@@ -292,11 +316,11 @@ const CreateTest = () => {
                                                                         </button>
                                                                     </div>
                                                                     {selectLanguage && (
-                                                                        <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                                                        <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                                                             <div className="py-1" role="none">
                                                                                 {languages.map((x, j) => {
                                                                                     return (
-                                                                                        <button href="#" key={j} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => handleChangeLanguage(x, i))}>{x.name}</button>
+                                                                                        <button key={j} className="block px-4 py-2 text-start text-sm text-gray-700 dark:text-gray-200 w-full" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => handleChangeLanguage(x, i))}>{x.name}</button>
                                                                                     )
                                                                                 })}
                                                                             </div>
@@ -365,6 +389,16 @@ const SwipeToLast = ({ lastSwiper }) => {
     useEffect(() => {
         swiper.slideTo(lastSwiper);
     }, [lastSwiper]);
+
+    return null;
+}
+
+const SwipeToIndex = ({ slideNavigator }) => {
+    const swiper = useSwiper();
+
+    useEffect(() => {
+        swiper.slideTo(slideNavigator, 2000);
+    }, [slideNavigator]);
 
     return null;
 }
