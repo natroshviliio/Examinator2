@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import "alk-sanet/css/alk-sanet.min.css";
 import "/node_modules/bpg-arial/css/bpg-arial.min.css";
 import MainHeader from "./Components/MainHeader";
@@ -9,6 +8,7 @@ import AdminLayout from "./Components/Admin/AdminLayout";
 import Loading from "./Components/Loading";
 
 import { Routes, Route } from "react-router-dom";
+import "./App.css";
 
 function App() {
     const [darkMode, setDarkMode] = useState(false);

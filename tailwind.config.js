@@ -5,7 +5,7 @@ module.exports = {
   darkMode: ['selector'],
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "node_modues/flowbite-react/lib/esm/**/*.js",
+    // "node_modues/flowbite-react/lib/esm/**/*.js",
     flowbite.content()
   ],
   theme: {
