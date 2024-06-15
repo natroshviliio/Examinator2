@@ -34,18 +34,11 @@ const CodePreviewModal = ({ darkMode, hideCodePreview, codePreview }) => {
                             <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex flex-col sm:flex-row sm:px-6">
                                 <button
                                     type="button"
-                                    className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
-                                    onClick={hideCodePreview}
-                                >
-                                    დამატება
-                                </button>
-                                <button
-                                    type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-emerald-400 hover:bg-emerald-500 dark:bg-gray-400 dark:hover:bg-gray-500 px-3 py-2 text-md text-white shadow-sm sm:mt-0 sm:w-auto"
                                     onClick={hideCodePreview}
                                     data-autofocus
                                 >
-                                    გაუქმება
+                                    დახურვა
                                 </button>
                             </div>
                         </div>
