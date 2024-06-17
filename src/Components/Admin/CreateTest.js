@@ -242,14 +242,17 @@ const CreateTest = () => {
                 <div className="absolute top-[-8px] left-[8px] text-xs bg-white dark:bg-slate-700 transition-colors duration-700">
                     <span className="text-gray-600 dark:text-slate-200">საერთო პარამეტრები</span>
                 </div>
-                <div>
+                <div className="w-fit">
                     <input type="text" className="py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="ტესტის სახელი" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
                 </div>
-                <div className="relative w-full lg:w-2/12 group">
+                <div className="w-full lg:w-1/12">
+                    <input type="text" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="მაქს. ქულა" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
+                </div>
+                <div className="relative w-full md:w-1/12 group">
                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                    <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10">
+                    <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-full md:w-fit">
                         <p>ტესტის დრო</p>
                         <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
                     </div>
@@ -275,7 +278,7 @@ const CreateTest = () => {
                         <span className="mt-0 block peer-checked/ch1:hidden text-gray-600 dark:text-slate-200">ინდივიდუალური დრო</span>
                         <span className="mt-0 hidden peer-checked/ch1:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
-                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვის დამატება</button>
+                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვა</button>
                     <div className="relative inline-block text-left w-fit bpg-arial">
                         <div>
                             <button type="button" onClick={() => setSlideDropdown(!slideDropdown)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
