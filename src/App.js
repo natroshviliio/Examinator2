@@ -51,6 +51,9 @@ function App() {
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);
+
+        const d = document.addEventListener('contextmenu', (e) => e.preventDefault());
+        return () => document.removeEventListener('contextmenu', d);
     }, []);
 
     return (
