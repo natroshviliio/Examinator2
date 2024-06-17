@@ -37,6 +37,7 @@ const CreateTest = () => {
                 minutes: '00',
                 seconds: '00'
             },
+            individualScore: 0,
             codeMode: false,
             selectedLanguage: { name: "C", value: "c" },
             code: '',
@@ -112,6 +113,12 @@ const CreateTest = () => {
             ...slides,
             {
                 question: '',
+                individualTime: {
+                    hours: '00',
+                    minutes: '00',
+                    seconds: '00'
+                },
+                individualScore: 0,
                 codeMode: false,
                 selectedLanguage: { name: "C", value: "c" },
                 code: '',
@@ -138,6 +145,12 @@ const CreateTest = () => {
     const handleChangeQuestion = (e, i) => {
         const _slides = [...slides];
         _slides[i].question = e.target.value;
+        setSlides(_slides);
+    }
+
+    const handleChangeIndividualScore = (e, i) => {
+        const _slides = [...slides];
+        _slides[i].individualScore = e.target.value;
         setSlides(_slides);
     }
 
@@ -325,7 +338,7 @@ const CreateTest = () => {
                                 <div className="py-1" role="none">
                                     {slides.map((_, j) => {
                                         return (
-                                            <button key={j} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => setSlideNavigator(j))}>შეკითხვა {j + 1}</button>
+                                            <button key={j} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full hover:bg-gray-200 dark:hover:bg-slate-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => setSlideNavigator(j))}>შეკითხვა {j + 1}</button>
                                         )
                                     })}
                                 </div>
@@ -343,22 +356,42 @@ const CreateTest = () => {
                         <SwipeToLast lastSwiper={slides.length} />
                         <SwipeToIndex slideNavigator={slideNavigator} />
                         {slides?.map((slide, i) => {
+                            const _maxScore = !generalSettings.generalDistribution ? slides.map(s => s.individualScore).reduce((a, b) => Number(a) + Number(b)) : generalSettings.maxScore;
+                            if (generalSettings.generalDistribution) {
+                                var _individual = generalSettings.maxScore / slides.length;
+                                _individual = Number(_individual.toFixed(3).toString().split('.')[1]) === 0 ? _individual : _individual.toFixed(3);
+                            }
                             return (
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
                                         <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center gap-3">
                                             <span className="text-gray-700 dark:text-slate-200 w-fit text-nowrap">შეკითხვა {i + 1}</span>
                                             {!generalSettings.isGeneralTime && (
-                                                <div className="relative w-fit lg:w-2/12 group">
-                                                    <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                <div className="relative w-fit lg:w-40 group">
+                                                    <input type="text" className="py-1 px-2 rounded-s-lg border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                                                    <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                    <input type="text" className="py-1 px-2 rounded-e-lg border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <div className="bg-gray-800 text-white absolute w-fit text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99] text-nowrap">
                                                         <p>დრო ინდივიდუალურ შეკითხვაზე</p>
                                                         {/* <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} /> */}
                                                     </div>
                                                 </div>
                                             )}
+                                            <div className="flex gap-1 py-1 px-2 bg-slate-800/[.2] rounded-lg flex items-center">
+                                                {!generalSettings.generalDistribution ? (
+                                                    <div className="relative w-fit lg:w-min group">
+                                                        <input type="number" className="py-0 px-2 rounded-lg border-gray-300 w-16 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-200 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" value={slide.individualScore} onChange={(e) => handleChangeIndividualScore(e, i)} />
+                                                        <div className="bg-gray-800 text-white absolute w-fit text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99] text-nowrap">
+                                                            <p>ქულა ინდივიდუალურ შეკითხვაზე</p>
+                                                            {/* <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} /> */}
+                                                        </div>
+                                                    </div>
+                                                ) :
+                                                    (
+                                                        <span className="text-xl text-gray-600 dark:text-slate-200">{isNaN(_individual) ? '0.00' : _individual}</span>
+                                                    )}
+                                                <div className="border border-0 border-s border-slate-200 flex items-center pl-1 text-xl text-gray-600 dark:text-slate-200">{_maxScore || '0.00'}</div>
+                                            </div>
                                             {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
                                         </div>
                                         <div className="p-2 w-full flex flex-col overflow-hidden">
