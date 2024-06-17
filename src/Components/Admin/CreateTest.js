@@ -248,11 +248,11 @@ const CreateTest = () => {
                 <div className="w-full lg:w-1/12">
                     <input type="text" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="მაქს. ქულა" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
                 </div>
-                <div className="relative w-full md:w-1/12 group">
+                <div className="relative w-full lg:w-1/12 group">
                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                     <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                    <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-full md:w-fit">
+                    <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit md:w-full">
                         <p>ტესტის დრო</p>
                         <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
                     </div>
