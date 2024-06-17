@@ -347,9 +347,9 @@ const CreateTest = () => {
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
                                         <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center gap-3">
-                                            <span className="text-gray-700 dark:text-slate-200">შეკითხვა {i + 1}</span>
+                                            <span className="text-gray-700 dark:text-slate-200 w-fit text-nowrap">შეკითხვა {i + 1}</span>
                                             {!generalSettings.isGeneralTime && (
-                                                <div className="relative w-full lg:w-2/12 group">
+                                                <div className="relative w-fit lg:w-2/12 group">
                                                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
