@@ -9,9 +9,37 @@ import Dashboard from "./Dashboard";
 import { Accordion } from "flowbite-react";
 import CreateTest from "./CreateTest";
 
-const AdminLayout = () => {
+import { IoBookSharp,IoChevronBack } from "react-icons/io5";
+import { RiSurveyFill } from "react-icons/ri";
+import CreateSubject from "./CreateSubject";
 
-    const [createTest, setCreateTest] = useState(false);
+const AdminLayout = () => {
+    const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+    const [menuItems, setMenuItems] = useState([
+        {
+            itemName: 'თემატიკები',
+            actionType: 'modal',
+            icon: <IoBookSharp />,
+            component: <CreateSubject setSelectedMenuItem={setSelectedMenuItem} />
+        },
+        {
+            itemName: 'ტესტები',
+            actionType: 'page',
+            icon: <MdTask />,
+            component: <CreateTest />
+        },
+        {
+            itemName: 'ჯგუფები',
+            actionType: 'page',
+            icon: <FaUserGroup />
+        },
+        {
+            itemName: 'გამოკითხვები',
+            actionType: 'page',
+            icon: <RiSurveyFill />
+        }
+    ])
+
 
     return (
         <div className="py-2 pt-3 flex flex-col flex-1 lg:flex-row gap-3 alk-sanet md:overflow-hidden">
@@ -154,10 +182,22 @@ const AdminLayout = () => {
             </div>
             <div className="bg-white dark:bg-slate-700 dark:text-slate-200 flex flex-col xl:basis-1/5 flex-1 p-2 rounded-md transition-colors duration-700 overflow-hidden">
                 <div className="px-3 py-2 flex flex-0">
-                    <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">მენიუ</p>
+                    <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">
+                        {selectedMenuItem ? (
+                            <span className="flex items-center gap-3">
+                                <button className="bg-teal-300 hover:bg-teal-400 dark:bg-slate-500 dark:hover:bg-slate-600 rounded-full p-1 text-white" onClick={() => setSelectedMenuItem(null)}><IoChevronBack/></button>
+                                {selectedMenuItem.itemName}
+                            </span>
+                        ) : (
+                            'მენიუ'
+                        )}
+                    </p>
                 </div>
-                {!createTest && <Dashboard setCreateTest={setCreateTest} />}
-                {createTest && <CreateTest />}
+                {!selectedMenuItem ? (
+                    <Dashboard setSelectedMenuItem={setSelectedMenuItem} menuItems={menuItems} />
+                ) : (
+                    selectedMenuItem?.component
+                )}
             </div>
         </div>
     );

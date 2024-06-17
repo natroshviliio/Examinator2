@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const CreateSubject = ({ subjectModal, hideSubjectModal }) => {
+const CreateSubject = ({ setSelectedMenuItem }) => {
     const [opacity, setOpacity] = useState(false);
+
+    const hideMenu = () => setSelectedMenuItem(null);
 
     useEffect(() => {
         setTimeout(() => {
@@ -27,14 +29,14 @@ const CreateSubject = ({ subjectModal, hideSubjectModal }) => {
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
-                                    onClick={hideSubjectModal}
+                                    onClick={hideMenu}
                                 >
                                     დამატება
                                 </button>
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-emerald-400 hover:bg-emerald-500 dark:bg-gray-400 dark:hover:bg-gray-500 px-3 py-2 text-md text-white shadow-sm sm:mt-0 sm:w-auto"
-                                    onClick={hideSubjectModal}
+                                    onClick={hideMenu}
                                     data-autofocus
                                 >
                                     გაუქმება
