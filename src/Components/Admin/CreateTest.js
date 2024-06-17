@@ -18,9 +18,23 @@ import { useExaminatorStore } from "../../App";
 const CreateTest = () => {
     const { darkMode } = useExaminatorStore();
 
+    const [generalSettings, setGeneralSettings] = useState({
+        testName: '',
+        testTime: {
+            hours: '00',
+            minutes: '00',
+            seconds: '00'
+        },
+        isGeneralTime: false
+    })
     const [slides, setSlides] = useState([
         {
             question: '',
+            individualTime: {
+                hours: '00',
+                minutes: '00',
+                seconds: '00'
+            },
             codeMode: false,
             selectedLanguage: { name: "C", value: "c" },
             code: '',
@@ -77,7 +91,20 @@ const CreateTest = () => {
         setIsCodePreview(false);
     }
 
-    //CREEATE TEST
+    //GENERAL SETTING
+    const handleChangeTestName = (e) => {
+        const _generalSettings = { ...generalSettings };
+        _generalSettings[e.target.name] = e.target.value;
+        setGeneralSettings(_generalSettings);
+    }
+
+    const handleChangeIsGeneralTime = e => {
+        const _generalSettings = { ...generalSettings };
+        _generalSettings["isGeneralTime"] = e.target.checked;
+        setGeneralSettings(_generalSettings);
+    }
+
+    //CREATE TEST
     const insertNewTest = () => {
         const _slides = [
             ...slides,
@@ -211,9 +238,12 @@ const CreateTest = () => {
 
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
-            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col lg:flex-row gap-3 flex-0">
+            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col xl:flex-row gap-3 flex-0">
                 <div className="absolute top-[-8px] left-[8px] text-xs bg-white dark:bg-slate-700 transition-colors duration-700">
                     <span className="text-gray-600 dark:text-slate-200">საერთო პარამეტრები</span>
+                </div>
+                <div>
+                    <input type="text" className="py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="ტესტის სახელი" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
                 </div>
                 <div className="relative w-full lg:w-2/12 group">
                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
@@ -224,14 +254,15 @@ const CreateTest = () => {
                         <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
                     </div>
                 </div>
-                <div className="flex gap-3 flex-col md:flex-row justify-start md:items-center">
+                <div className="flex gap-3 flex-col 2xl:flex-row justify-start 2xl:items-center">
                     <label htmlFor="ch1" className="relative inline-flex gap-3 items-center cursor-pointer">
-                        <input id="ch1" type="checkbox" className="sr-only peer" />
-                        <div
-                            className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
-                        <span
-                            className={`
-                                    absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
+                        <input id="ch1" type="checkbox" className="sr-only peer/ch1" checked={generalSettings.isGeneralTime} onChange={handleChangeIsGeneralTime} />
+                        <div className="relative w-11 h-5 group">
+                            <div
+                                className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
+                            <span
+                                className={`
+                                    absolute w-4 h-4 top-[50%] left-[2px] translate-y-[-50%] group-[#ch1:checked~&]:left-[58%] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
                                     flex items-center justify-center
                                     text-amber-500
                                     peer-checked:text-slate-800
@@ -239,9 +270,10 @@ const CreateTest = () => {
                                     bg-teal-400
                                     dark:bg-slate-500
                                 `}>
-                        </span>
-                        <span className="mt-0 block peer-checked:hidden text-gray-600 dark:text-slate-200">ინდივიდუალური დრო</span>
-                        <span className="mt-0 hidden peer-checked:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
+                            </span>
+                        </div>
+                        <span className="mt-0 block peer-checked/ch1:hidden text-gray-600 dark:text-slate-200">ინდივიდუალური დრო</span>
+                        <span className="mt-0 hidden peer-checked/ch1:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვის დამატება</button>
                     <div className="relative inline-block text-left w-fit bpg-arial">
@@ -279,8 +311,19 @@ const CreateTest = () => {
                             return (
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
-                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center">
+                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center gap-3">
                                             <span className="text-gray-700 dark:text-slate-200">შეკითხვა {i + 1}</span>
+                                            {!generalSettings.isGeneralTime && (
+                                                <div className="relative w-full lg:w-2/12 group">
+                                                    <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                    <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                    <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                    <div className="bg-gray-800 text-white absolute w-32 text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99]">
+                                                        <p>ტესტის დრო</p>
+                                                        {/* <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} /> */}
+                                                    </div>
+                                                </div>
+                                            )}
                                             {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
                                         </div>
                                         <div className="p-2 w-full flex flex-col overflow-hidden">

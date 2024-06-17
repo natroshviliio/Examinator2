@@ -9,7 +9,7 @@ import Dashboard from "./Dashboard";
 import { Accordion } from "flowbite-react";
 import CreateTest from "./CreateTest";
 
-import { IoBookSharp,IoChevronBack } from "react-icons/io5";
+import { IoBookSharp, IoChevronBack } from "react-icons/io5";
 import { RiSurveyFill } from "react-icons/ri";
 import CreateSubject from "./CreateSubject";
 
@@ -185,8 +185,7 @@ const AdminLayout = () => {
                     <p className="text-3xl text-gray-600 text-center md:text-start dark:text-slate-400">
                         {selectedMenuItem ? (
                             <span className="flex items-center gap-3">
-                                <button className="bg-teal-300 hover:bg-teal-400 dark:bg-slate-500 dark:hover:bg-slate-600 rounded-full p-1 text-white" onClick={() => setSelectedMenuItem(null)}><IoChevronBack/></button>
-                                {selectedMenuItem.itemName}
+                                <button className="bg-teal-300 hover:bg-teal-400 dark:bg-slate-500 dark:hover:bg-slate-600 rounded-full p-1 px-2 pr-4 text-white flex items-center" onClick={() => setSelectedMenuItem(null)}><IoChevronBack /><span>{selectedMenuItem.itemName}</span></button>
                             </span>
                         ) : (
                             'მენიუ'
