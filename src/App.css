@@ -56,3 +56,14 @@ body::-webkit-scrollbar-thumb {
 .dark\:placeholder\:text-gray-200:where(.dark, .dark *) .w-tc-editor-text::placeholder {
 	color: rgb(229 231 235 / var(--tw-text-opacity));
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}

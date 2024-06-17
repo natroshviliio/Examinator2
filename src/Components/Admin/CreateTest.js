@@ -20,6 +20,8 @@ const CreateTest = () => {
 
     const [generalSettings, setGeneralSettings] = useState({
         testName: '',
+        maxScore: undefined,
+        generalDistribution: false,
         testTime: {
             hours: '00',
             minutes: '00',
@@ -92,15 +94,15 @@ const CreateTest = () => {
     }
 
     //GENERAL SETTING
-    const handleChangeTestName = (e) => {
+    const handleChangeTestValues = (e) => {
         const _generalSettings = { ...generalSettings };
         _generalSettings[e.target.name] = e.target.value;
         setGeneralSettings(_generalSettings);
     }
 
-    const handleChangeIsGeneralTime = e => {
+    const handleChangeGeneralCheckBox = e => {
         const _generalSettings = { ...generalSettings };
-        _generalSettings["isGeneralTime"] = e.target.checked;
+        _generalSettings[e.target.name] = e.target.checked;
         setGeneralSettings(_generalSettings);
     }
 
@@ -238,28 +240,53 @@ const CreateTest = () => {
 
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
-            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col xl:flex-row gap-3 flex-0">
+            <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col items-start lg:items-center xl:flex-row gap-3 flex-0">
                 <div className="absolute top-[-8px] left-[8px] text-xs bg-white dark:bg-slate-700 transition-colors duration-700">
                     <span className="text-gray-600 dark:text-slate-200">საერთო პარამეტრები</span>
                 </div>
                 <div className="w-fit">
-                    <input type="text" className="py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="ტესტის სახელი" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
+                    <input type="text" className="py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="ტესტის სახელი" name="testName" value={generalSettings.testName} onChange={handleChangeTestValues} />
                 </div>
-                <div className="w-full lg:w-1/12">
-                    <input type="text" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="მაქს. ქულა" name="testName" value={generalSettings.testName} onChange={handleChangeTestName} />
-                </div>
-                <div className="relative w-full lg:w-1/12 group">
-                    <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                    <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                    <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                    <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit md:w-full">
-                        <p>ტესტის დრო</p>
-                        <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
+                <div className="flex gap-3 lg:w-min bg-gray-100/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
+                    <div className="w-full lg:w-32">
+                        <input type="number" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="მაქს. ქულა" name="maxScore" value={generalSettings.maxScore} onChange={handleChangeTestValues} />
                     </div>
+                    <label htmlFor="scoreState" className="relative inline-flex gap-3 items-center cursor-pointer">
+                        <input id="scoreState" type="checkbox" name="generalDistribution" checked={generalSettings.generalDistribution} onChange={handleChangeGeneralCheckBox} className="sr-only peer/scoreState" />
+                        <div className="relative w-11 h-5 group">
+                            <div
+                                className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
+                            <span
+                                className={`
+                                    absolute w-4 h-4 top-[50%] left-[2px] translate-y-[-50%] group-[#scoreState:checked~&]:left-[58%] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
+                                    flex items-center justify-center
+                                    text-amber-500
+                                    peer-checked:text-slate-800
+                                    text-2xl
+                                    bg-teal-400
+                                    dark:bg-slate-500
+                                `}>
+                            </span>
+                            <div className="bg-gray-800 text-white absolute bottom-[120%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit text-nowrap text-center">
+                                <span className="mt-0 block group-[#scoreState:checked~&]:hidden text-slate-200 text-sm">ინდივიდუალური განაწილება</span>
+                                <span className="mt-0 hidden group-[#scoreState:checked~&]:block text-slate-200 text-sm">საერთო განაწილება</span>
+                                <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
+                            </div>
+                        </div>
+                    </label>
                 </div>
-                <div className="flex gap-3 flex-col 2xl:flex-row justify-start 2xl:items-center">
+                <div className="flex gap-3 lg:w-min bg-gray-100/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
+                    <div className="relative w-full lg:w-32 group">
+                        <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                        <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                        <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                        <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit md:w-full">
+                            <p>ტესტის დრო</p>
+                            <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
+                        </div>
+                    </div>
                     <label htmlFor="ch1" className="relative inline-flex gap-3 items-center cursor-pointer">
-                        <input id="ch1" type="checkbox" className="sr-only peer/ch1" checked={generalSettings.isGeneralTime} onChange={handleChangeIsGeneralTime} />
+                        <input id="ch1" type="checkbox" className="sr-only peer/ch1" name="isGeneralTime" checked={generalSettings.isGeneralTime} onChange={handleChangeGeneralCheckBox} />
                         <div className="relative w-11 h-5 group">
                             <div
                                 className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
@@ -274,10 +301,15 @@ const CreateTest = () => {
                                     dark:bg-slate-500
                                 `}>
                             </span>
+                            <div className="bg-gray-800 text-white absolute bottom-[120%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit text-nowrap text-center">
+                                <span className="mt-0 block group-[#ch1:checked~&]:hidden text-slate-200 text-sm">ინდივიდუალური დრო</span>
+                                <span className="mt-0 hidden group-[#ch1:checked~&]:block text-slate-200 text-sm">საერთო დრო</span>
+                                <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
+                            </div>
                         </div>
-                        <span className="mt-0 block peer-checked/ch1:hidden text-gray-600 dark:text-slate-200">ინდივიდუალური დრო</span>
-                        <span className="mt-0 hidden peer-checked/ch1:block text-gray-600 dark:text-slate-200">საერთო დრო</span>
                     </label>
+                </div>
+                <div className="flex gap-3 flex-col 2xl:flex-row justify-start 2xl:items-center">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500 w-fit" onClick={insertNewTest}>მომდევნო შეკითხვა</button>
                     <div className="relative inline-block text-left w-fit bpg-arial">
                         <div>
@@ -321,8 +353,8 @@ const CreateTest = () => {
                                                     <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
                                                     <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                                                    <div className="bg-gray-800 text-white absolute w-32 text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99]">
-                                                        <p>ტესტის დრო</p>
+                                                    <div className="bg-gray-800 text-white absolute w-fit text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99] text-nowrap">
+                                                        <p>დრო ინდივიდუალურ შეკითხვაზე</p>
                                                         {/* <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} /> */}
                                                     </div>
                                                 </div>
