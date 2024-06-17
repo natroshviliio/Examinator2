@@ -247,9 +247,9 @@ const CreateTest = () => {
                 <div className="w-fit">
                     <input type="text" className="py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="ტესტის სახელი" name="testName" value={generalSettings.testName} onChange={handleChangeTestValues} />
                 </div>
-                <div className="flex gap-3 lg:w-min bg-gray-100/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
+                <div className="flex gap-3 lg:w-min bg-gray-200/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
                     <div className="w-full lg:w-32">
-                        <input type="number" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200" placeholder="მაქს. ქულა" name="maxScore" value={generalSettings.maxScore} onChange={handleChangeTestValues} />
+                        <input type="number" className="w-full py-1 rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200 disabled:opacity-50" placeholder="მაქს. ქულა" disabled={!generalSettings.generalDistribution} name="maxScore" value={generalSettings.maxScore} onChange={handleChangeTestValues} />
                     </div>
                     <label htmlFor="scoreState" className="relative inline-flex gap-3 items-center cursor-pointer">
                         <input id="scoreState" type="checkbox" name="generalDistribution" checked={generalSettings.generalDistribution} onChange={handleChangeGeneralCheckBox} className="sr-only peer/scoreState" />
@@ -275,11 +275,11 @@ const CreateTest = () => {
                         </div>
                     </label>
                 </div>
-                <div className="flex gap-3 lg:w-min bg-gray-100/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
+                <div className="flex gap-3 lg:w-min bg-gray-200/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
                     <div className="relative w-full lg:w-32 group">
-                        <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                        <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                        <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                        <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
+                        <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
+                        <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
                         <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit md:w-full">
                             <p>ტესტის დრო</p>
                             <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
