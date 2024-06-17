@@ -364,7 +364,7 @@ const CreateTest = () => {
                             return (
                                 <SwiperSlide key={i} className="flex overflow-hidden">
                                     <div className="p-2 h-full flex flex-col overflow-hidden">
-                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex items-center gap-3">
+                                        <div className="bg-teal-200 s dark:bg-slate-500 rounded-full p-3 shadow-[2px_2px_5px_rgba(0,0,0,0.3)] flex flex-col md:flex-row items-center gap-3">
                                             <span className="text-gray-700 dark:text-slate-200 w-fit text-nowrap">შეკითხვა {i + 1}</span>
                                             {!generalSettings.isGeneralTime && (
                                                 <div className="relative w-fit lg:w-40 group">
