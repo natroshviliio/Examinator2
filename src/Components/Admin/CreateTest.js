@@ -392,7 +392,7 @@ const CreateTest = () => {
                                                     )}
                                                 <div className="border border-0 border-s border-slate-200 flex items-center pl-1 text-xl text-gray-600 dark:text-slate-200">{_maxScore || '0.00'}</div>
                                             </div>
-                                            {i > 0 && <span className="ml-auto mr-4 text-2xl cursor-pointer text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
+                                            {i > 0 && <span className="md:ml-auto mr-4 text-2xl cursor-pointer text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600" onClick={() => deleteCurrentTest(i)}><BsTrash3Fill /></span>}
                                         </div>
                                         <div className="p-2 w-full flex flex-col overflow-hidden">
                                             <div className="p-2 w-full mt-3 flex flex-col lg:flex-row gap-5 overflow-hidden">
