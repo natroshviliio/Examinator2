@@ -474,7 +474,7 @@ const CreateTest = () => {
                                                 <div className="p-2 lg:w-7/12 flex flex-col gap-4 overflow-y-auto overflow-v">
                                                     {slide.answers.map((answer, j) => {
                                                         return (
-                                                            <div key={j} className="relative p-3 border border-teal-300 rounded">
+                                                            <div key={j} className="relative p-3 border border-teal-300 dark:border-slate-200 rounded">
                                                                 <div className="absolute px-2 text-sm top-[-9px] left-[10px] bg-gray-100 dark:bg-[#39475b] transition-colors duration-700 rounded-full"><span className="text-teal-500 dark:text-slate-200">პასუხი {j + 1}</span></div>
                                                                 <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-3">
                                                                     <textarea className="border-teal-300 bpg-arial rounded-md 2xl:w-7/12 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 min-h-10 max-h-[5rem] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200" name="answer" value={answer.answer} onChange={e => handleChangeAnswer(e, i, j)} placeholder="პასუხი..."></textarea>
