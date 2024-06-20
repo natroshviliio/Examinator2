@@ -276,6 +276,29 @@ const CreateTest = () => {
         setSlides(_slides);
     }
 
+    const [t, setT] = useState([]);
+
+    useEffect(() => {
+        let i = 0;
+        const interval = setInterval(() => {
+            eval(`
+                const myF${i} = () => {
+                    console.log('this fucking shit ${i} - myF${i}');
+                    setT(t => [...t, myF${i}]);
+                }
+                
+                myF${i}();
+            `);
+            i++;
+        }, 10000)
+
+        return () => clearInterval(interval);
+    }, [])
+
+    useEffect(() => {
+        console.log(t);
+    }, [t])
+
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
             <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col items-start lg:items-center xl:flex-row gap-3 flex-0">
