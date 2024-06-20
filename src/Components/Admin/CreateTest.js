@@ -51,7 +51,7 @@ const CreateTest = () => {
         }
     ])
     const [slideDropdown, setSlideDropdown] = useState(false);
-    const [slideNavigator, setSlideNavigator] = useState(0);
+    const [slideNavigator, setSlideNavigator] = useState(-1);
 
     const [selectLanguage, setSelectLanguage] = useState(false);
 
@@ -92,6 +92,31 @@ const CreateTest = () => {
     const hideCodePreview = () => {
         setCodePreview('');
         setIsCodePreview(false);
+    }
+
+    const restrictKeys = (e) => (!e.key.match(/[0-9]|arrowLeft|arrowUp|arrowRight|arrowDown|backspace|a/gi) && !e.ctrlKey) && e.preventDefault();
+
+    const identTime = (e) => {
+        const _name = e.target.name;
+        let _value = Number(e.target.value);
+        if (['minutes', 'seconds'].includes(_name)) {
+            console.log(_value, _name);
+            if (_value > 59) _value = 59;
+            if (_value < 0) _value = 0;
+        }
+        return _value;
+    }
+
+    const changeIndividualTime = (e, i) => {
+        const _slides = [...slides];
+        _slides[i]['individualTime'][e.target.name] = identTime(e);
+        setSlides(_slides);
+    }
+
+    const changeGlobalTime = (e) => {
+        const _generalSettings = { ...generalSettings };
+        _generalSettings["testTime"][e.target.name] = identTime(e);
+        setGeneralSettings(_generalSettings);
     }
 
     //GENERAL SETTING
@@ -290,9 +315,9 @@ const CreateTest = () => {
                 </div>
                 <div className="flex gap-3 lg:w-min bg-gray-200/[.5] dark:bg-slate-100/[.15] rounded-lg py-1 px-2">
                     <div className="relative w-full lg:w-32 group">
-                        <input type="text" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
-                        <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
-                        <input type="text" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} />
+                        <input type="number" className="py-1 px-2 rounded-s border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} name="hours" value={generalSettings.testTime.hours} onKeyDown={restrictKeys} onChange={e => changeGlobalTime(e)} />
+                        <input type="number" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} name="minutes" value={generalSettings.testTime.minutes} onKeyDown={restrictKeys} onChange={e => changeGlobalTime(e)} />
+                        <input type="number" className="py-1 px-2 rounded-e border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300 disabled:opacity-50" placeholder="00" disabled={!generalSettings.isGeneralTime} name="seconds" value={generalSettings.testTime.seconds} onKeyDown={restrictKeys} onChange={e => changeGlobalTime(e)} />
                         <div className="bg-gray-800 text-white absolute bottom-[115%] left-[50%] translate-x-[-50%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-10 w-fit md:w-full">
                             <p>ტესტის დრო</p>
                             <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} />
@@ -368,9 +393,9 @@ const CreateTest = () => {
                                             <span className="text-gray-700 dark:text-slate-200 w-fit text-nowrap">შეკითხვა {i + 1}</span>
                                             {!generalSettings.isGeneralTime && (
                                                 <div className="relative w-fit lg:w-40 group">
-                                                    <input type="text" className="py-1 px-2 rounded-s-lg border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                                                    <input type="text" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
-                                                    <input type="text" className="py-1 px-2 rounded-e-lg border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" />
+                                                    <input type="number" className="py-1 px-2 rounded-s-lg border-gray-300 border-e-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" name="hours" onKeyDown={restrictKeys} value={slide.individualTime.hours} onChange={e => changeIndividualTime(e, i)} />
+                                                    <input type="number" className="py-1 px-2 border-gray-300 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" name="minutes" onKeyDown={restrictKeys} value={slide.individualTime.minutes} onChange={e => changeIndividualTime(e, i)} />
+                                                    <input type="number" className="py-1 px-2 rounded-e-lg border-gray-300 border-s-0 w-4/12 focus:ring-0 focus:border-gray-300 text-center dark:bg-slate-400 dark:text-slate-700 placeholder:dark:text-slate-200 dark:border-slate-300" placeholder="00" name="seconds" onKeyDown={restrictKeys} value={slide.individualTime.seconds} onChange={e => changeIndividualTime(e, i)} />
                                                     <div className="bg-gray-800 text-white absolute w-fit text-center top-[50%] translate-y-[-50%] left-[105%] hidden group-hover:block px-3 py-1 rounded-md text-sm z-[99] text-nowrap">
                                                         <p>დრო ინდივიდუალურ შეკითხვაზე</p>
                                                         {/* <RiArrowDownSFill className="absolute top-[68%] text-gray-800 w-5 h-5 left-[50%] translate-x-[-50%]" style={{ overflow: "overlay" }} /> */}
