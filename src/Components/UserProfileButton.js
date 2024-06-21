@@ -14,7 +14,10 @@ const UserProfileButton = ({ showUserDropdown, userCollapse }) => {
                     showUserDropdown();
                 }
             })
-            .catch(console.error);
+            .catch(err => {
+                console.log(err);
+                setUserData(null);
+            });
     }
 
     return (
