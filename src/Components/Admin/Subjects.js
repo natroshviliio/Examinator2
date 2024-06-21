@@ -2,7 +2,7 @@ import React from "react";
 
 const Subjects = () => {
     return (
-        <div>HEHEHEHE</div>
+        <div>HEHEHEHEE</div>
     )
 };
 
