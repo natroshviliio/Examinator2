@@ -37,7 +37,10 @@ const Login = () => {
                     }
                 }
             })
-            .catch(console.error);
+            .catch(err => {
+                console.log(err);
+                setUserData({ userRole: 0 })
+            });
     }
 
     useEffect(() => {
