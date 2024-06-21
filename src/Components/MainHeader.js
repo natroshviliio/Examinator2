@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { FaCloudMoon, FaCloudSun } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useExaminatorStore } from "../App";
+import UserProfileButton from "./UserProfileButton";
 
 const MainHeader = ({ darkMode, changeDarkMode }) => {
-    const [currentUrl, setCurrentUrl] = useState("");
+
+    const { userData, ROLES } = useExaminatorStore();
+
     const [navbarCollapse, setNavbarCollapse] = useState(false);
     const [userCollapse, setUserCollapse] = useState(false);
 
@@ -17,12 +21,6 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
         setUserCollapse(!userCollapse);
         setNavbarCollapse(false);
     }
-
-    const location = useLocation();
-
-    useEffect(() => {
-        setCurrentUrl(location.pathname);
-    }, [location]);
 
     return (
         <nav className="w-full relative py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-colors duration-700">
@@ -45,7 +43,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                         მთავარი
                                     </Link>
                                 </li>
-                                {currentUrl === "/admin" && (
+                                {userData?.userRole === ROLES.ADMINISTRATOR && (
                                     <>
                                         <li>
                                             <Link to="#" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
@@ -90,41 +88,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                 </label>
                             </div>
                         </div>
-                        <div className="lg:relative flex items-center ml-3">
-                            <button onClick={showUserDropdown} id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" className="flex z-[11] text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
-                                <span className="sr-only">Open user menu</span>
-                                <img className="w-9 h-9 rounded-full object-cover" src="/img/profile.webp" alt="user photo" />
-                            </button>
-
-                            <div id="dropdownAvatar" className={`z-10 ${userCollapse ? '' : 'hidden'} absolute top-[80%] lg:top-[100%] left-0 lg:left-[50%] w-full lg:w-fit lg:translate-x-[-50%] bg-white lg:bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600`}>
-                                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                    <div>იოანე ნატროშვილი</div>
-                                    <div className="font-medium truncate">i.natroshvili@ssu.edu.ge</div>
-                                </div>
-                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
-                                    <li>
-                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            პროფილი
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            პარამეტრები
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            რამე სხვა
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div className="py-2">
-                                    <a href="#" className="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-400 dark:hover:text-red-300">
-                                        გასვლა
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        {userData?.userRole === ROLES.ADMINISTRATOR && <UserProfileButton showUserDropdown={showUserDropdown} userCollapse={userCollapse} />}
                     </div>
                 </div>
             </div>

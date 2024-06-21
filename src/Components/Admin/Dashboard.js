@@ -6,6 +6,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { MdTask } from "react-icons/md";
 import { IoBookSharp, IoChevronBack } from "react-icons/io5";
 import { RiSurveyFill } from "react-icons/ri";
+import Subjects from "./Subjects";
 
 const Dashboard = () => {
     const [selectedMenuItem, setSelectedMenuItem] = useState(null);
@@ -14,7 +15,7 @@ const Dashboard = () => {
             itemName: 'თემატიკები',
             actionType: 'modal',
             icon: <IoBookSharp />,
-            component: <CreateSubject setSelectedMenuItem={setSelectedMenuItem} />
+            component: <Subjects />
         },
         {
             itemName: 'ტესტები',
