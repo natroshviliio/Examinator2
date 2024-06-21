@@ -21,7 +21,6 @@ const Login = () => {
             .then(res => {
                 if (res.status >= 200 && res.status <= 226) {
                     setUserData(res.data);
-                    console.log(res.data);
                 }
             })
             .catch(console.error);
@@ -33,6 +32,8 @@ const Login = () => {
                 if (res.status >= 200 && res.status <= 226) {
                     if (res.data.status) {
                         setUserData(res.data.userData);
+                    } else {
+                        setUserData({ userRole: 0 })
                     }
                 }
             })
