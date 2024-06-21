@@ -69,11 +69,6 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
                                         დაგვიკავშირდით
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/admin" className="flex items-center w-full justify-between text-lg hover:text-gray-400 dark:hover:text-slate-100 mb-2 md:mb-0">
-                                        ადმინი
-                                    </Link>
-                                </li>
                             </ul>
                             <div className="flex align-center w-fit mx-auto my-3 lg:my-0 lg:mx-0 lg:mr-3">
                                 <label htmlFor="ch" className="relative inline-flex items-center cursor-pointer">

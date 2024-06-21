@@ -10,8 +10,17 @@ import Loading from "./Components/Loading";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { create } from "zustand";
+import axios from "axios";
+import Dashboard from "./Components/Admin/Dashboard";
 
 export const useExaminatorStore = create((set, get) => ({
+    HTTP: process.env.REACT_APP_HTTP,
+    WS: process.env.REACT_APP_WS,
+    ROLES: {
+        ADMINISTRATOR: 0x0
+    },
+    userData: null,
+    setUserData: data => set({ userData: data }),
     darkMode: false,
     setDarkMode: (mode) => {
         set({ darkMode: mode });
@@ -19,7 +28,9 @@ export const useExaminatorStore = create((set, get) => ({
 }))
 
 function App() {
-    const { darkMode, setDarkMode } = useExaminatorStore();
+    axios.defaults.withCredentials = true;
+
+    const { darkMode, setDarkMode, userData, ROLES } = useExaminatorStore();
     const [moding, setModing] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -36,9 +47,9 @@ function App() {
         }
     };
 
+
     useEffect(() => {
         const _darkMode = localStorage.getItem("darkMode");
-        console.log(_darkMode);
         if (_darkMode === "true") setDarkMode(true);
         else setDarkMode(false);
 
@@ -61,8 +72,13 @@ function App() {
             {isLoading && <Loading loadingAnim={loadingAnim} />}
             <MainHeader darkMode={darkMode} changeDarkMode={changeDarkMode} />
             <Routes>
-                <Route exact path="/" element={<Login />} />
-                <Route exact path="/admin" element={<AdminLayout />} />
+                {!userData ? (
+                    <Route exact path="/" element={<Login />} />
+                ) : (
+                    userData.userRole === ROLES.ADMINISTRATOR && <Route element={<AdminLayout />} >
+                        <Route path="/" element={<Dashboard />} />
+                    </Route>
+                )}
             </Routes>
         </div>
     );
