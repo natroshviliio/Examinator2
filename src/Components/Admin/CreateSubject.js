@@ -1,9 +1,25 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const CreateSubject = ({ setSelectedMenuItem }) => {
+const CreateSubject = ({ toggleSubjectModal, setSubjects, HTTP }) => {
     const [opacity, setOpacity] = useState(false);
 
-    const hideMenu = () => setSelectedMenuItem(null);
+    const [subjectName, setSubjectName] = useState('');
+
+    const handleChangeSubjectName = e => setSubjectName(e.target.value);
+
+    const createSubject = async () => {
+        await axios.post(`${HTTP}/subject`, { subjectName })
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    setSubjects(s => [...s, res.data]);
+                    toggleSubjectModal();
+                    setSubjectName('');
+                }
+            })
+            .catch(console.error);
+    }
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -23,20 +39,20 @@ const CreateSubject = ({ setSelectedMenuItem }) => {
                                 თემატიკის დამატება
                             </div>
                             <div className="p-3 flex">
-                                <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700" placeholder="თემატიკის სახელი" />
+                                <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700" placeholder="თემატიკის სახელი" value={subjectName} onChange={handleChangeSubjectName} />
                             </div>
                             <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex flex-col sm:flex-row sm:px-6">
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
-                                    onClick={hideMenu}
+                                    onClick={createSubject}
                                 >
                                     დამატება
                                 </button>
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-emerald-400 hover:bg-emerald-500 dark:bg-gray-400 dark:hover:bg-gray-500 px-3 py-2 text-md text-white shadow-sm sm:mt-0 sm:w-auto"
-                                    onClick={hideMenu}
+                                    onClick={toggleSubjectModal}
                                     data-autofocus
                                 >
                                     გაუქმება

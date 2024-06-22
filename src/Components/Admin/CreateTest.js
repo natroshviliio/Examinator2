@@ -14,14 +14,18 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import { AiOutlineFullscreen } from "react-icons/ai";
 import CodePreviewModal from "./CodePreviewModal";
 import { useExaminatorStore } from "../../App";
+import axios from "axios";
 
 const CreateTest = () => {
-    const { darkMode } = useExaminatorStore();
+    const { HTTP, darkMode } = useExaminatorStore();
+
+    const [subjects, setSubjects] = useState([]);
 
     const [generalSettings, setGeneralSettings] = useState({
         testName: '',
         maxScore: undefined,
         generalDistribution: false,
+        subject: null,
         testTime: {
             hours: '00',
             minutes: '00',
@@ -31,6 +35,7 @@ const CreateTest = () => {
     })
     const [slides, setSlides] = useState([
         {
+            questionId: 1,
             question: '',
             individualTime: {
                 hours: '00',
@@ -52,6 +57,8 @@ const CreateTest = () => {
     ])
     const [slideDropdown, setSlideDropdown] = useState(false);
     const [slideNavigator, setSlideNavigator] = useState(-1);
+
+    const [subjectDropdown, setSubjectDropdown] = useState(false);
 
     const [selectLanguage, setSelectLanguage] = useState(false);
 
@@ -94,6 +101,17 @@ const CreateTest = () => {
         setIsCodePreview(false);
     }
 
+    const getSubjects = async () => {
+        await axios.get(`${HTTP}/subjects`)
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    setSubjects(res.data);
+                }
+            })
+            .catch(console.error);
+
+    }
+
     const restrictKeys = (e) => (!e.key.match(/[0-9]|arrowLeft|arrowUp|arrowRight|arrowDown|backspace|a/gi) && !e.ctrlKey) && e.preventDefault();
 
     const identTime = (e) => {
@@ -107,19 +125,7 @@ const CreateTest = () => {
         return _value;
     }
 
-    const changeIndividualTime = (e, i) => {
-        const _slides = [...slides];
-        _slides[i]['individualTime'][e.target.name] = identTime(e);
-        setSlides(_slides);
-    }
-
-    const changeGlobalTime = (e) => {
-        const _generalSettings = { ...generalSettings };
-        _generalSettings["testTime"][e.target.name] = identTime(e);
-        setGeneralSettings(_generalSettings);
-    }
-
-    //GENERAL SETTING
+    //#region GENERAL SETTING
     const handleChangeTestValues = (e) => {
         const _generalSettings = { ...generalSettings };
         _generalSettings[e.target.name] = e.target.value;
@@ -132,11 +138,25 @@ const CreateTest = () => {
         setGeneralSettings(_generalSettings);
     }
 
-    //CREATE TEST
+    const changeGlobalTime = (e) => {
+        const _generalSettings = { ...generalSettings };
+        _generalSettings["testTime"][e.target.name] = identTime(e);
+        setGeneralSettings(_generalSettings);
+    }
+
+    const setTestSubject = (subject) => {
+        const _generalSettings = { ...generalSettings };
+        _generalSettings["subject"] = subject;
+        setGeneralSettings(_generalSettings);
+    }
+    //#endregion GENERAL SETTINGS
+
+    //#region CREATE TEST
     const insertNewTest = () => {
         const _slides = [
             ...slides,
             {
+                questionId: slides.length + 1,
                 question: '',
                 individualTime: {
                     hours: '00',
@@ -276,6 +296,17 @@ const CreateTest = () => {
         setSlides(_slides);
     }
 
+    const changeIndividualTime = (e, i) => {
+        const _slides = [...slides];
+        _slides[i]['individualTime'][e.target.name] = identTime(e);
+        setSlides(_slides);
+    }
+    //#endregion CREATE TEST
+
+    useEffect(() => {
+        getSubjects();
+    }, [])
+
     return (
         <div className="p-3 flex flex-col" style={{ height: "calc(100% - 52px)" }}>
             <div className="relative p-2 pt-3 border border-gray-300 dark:border-slate-400 rounded-md flex flex-col items-start lg:items-center xl:flex-row gap-3 flex-0">
@@ -364,6 +395,27 @@ const CreateTest = () => {
                                     {slides.map((_, j) => {
                                         return (
                                             <button key={j} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full hover:bg-gray-200 dark:hover:bg-slate-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => setSlideNavigator(j))}>შეკითხვა {j + 1}</button>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="relative inline-block text-left w-fit bpg-arial">
+                        <div>
+                            <button type="button" onClick={() => setSubjectDropdown(!subjectDropdown)} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-slate-500 dark:text-gray-100 px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                {generalSettings.subject ? generalSettings.subject.subjectName : 'თემატიკა'}
+                                <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        {subjectDropdown && (
+                            <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                <div className="py-1" role="none">
+                                    {subjects.map((s, j) => {
+                                        return (
+                                            <button key={j} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full hover:bg-gray-200 dark:hover:bg-slate-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={(() => setTestSubject(s))}>{s.subjectName}</button>
                                         )
                                     })}
                                 </div>

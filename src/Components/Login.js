@@ -33,13 +33,13 @@ const Login = () => {
                     if (res.data.status) {
                         setUserData(res.data.userData);
                     } else {
-                        setUserData({ userRole: 0 })
+                        // setUserData({ userRole: 0 })
                     }
                 }
             })
             .catch(err => {
                 console.log(err);
-                setUserData({ userRole: 0 })
+                // setUserData({ userRole: 0 })
             });
     }
 
