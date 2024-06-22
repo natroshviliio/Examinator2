@@ -92,10 +92,12 @@ const CreateTest = () => {
     const [codePreview, setCodePreview] = useState('');
 
     const [isCodePreview, setIsCodePreview] = useState(false);
+
     const showCodePreview = (p) => {
         setCodePreview(p);
         setIsCodePreview(true);
     }
+
     const hideCodePreview = () => {
         setCodePreview('');
         setIsCodePreview(false);
@@ -110,6 +112,16 @@ const CreateTest = () => {
             })
             .catch(console.error);
 
+    }
+
+    const createTest = async () => {
+        await axios.post(`${HTTP}/createtest`, { generalSettings, tests: slides })
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    console.log(1);
+                }
+            })
+            .catch(console.error);
     }
 
     const restrictKeys = (e) => (!e.key.match(/[0-9]|arrowLeft|arrowUp|arrowRight|arrowDown|backspace|a/gi) && !e.ctrlKey) && e.preventDefault();
@@ -424,7 +436,7 @@ const CreateTest = () => {
                     </div>
                 </div>
                 <div className="flex items-center lg:ml-auto">
-                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500">დასრულება</button>
+                    <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500" onClick={createTest}>დასრულება</button>
                 </div>
             </div>
             <div className="p-2 mt-3 border border-gray-300 dark:border-slate-400 rounded-md w-full overflow-hidden flex flex-1">
