@@ -49,6 +49,7 @@ const CreateTest = () => {
             codePreview: '',
             answers: [
                 {
+                    questionId: 1,
                     answer: '',
                     isCorrect: false
                 },
@@ -182,6 +183,7 @@ const CreateTest = () => {
                 codePreview: '',
                 answers: [
                     {
+                        questionId: slides.length + 1,
                         answer: '',
                         isCorrect: false
                     },
@@ -228,7 +230,7 @@ const CreateTest = () => {
         const _slides = [...slides];
         _slides[i].code = e.target.value;
         const preview = document.getElementById(`editor-${i}`).parentNode.childNodes[1];
-        _slides[i].codePreview = `<div id='editor-preview' data-color-mode=${darkMode ? 'dark' : 'light'} class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML}</div>`;
+        _slides[i].codePreview = `<div id='editor-preview' data-color-mode='${darkMode ? 'dark' : 'light'}' class='w-tc-editor !text-[1rem] !bg-white dark:!bg-slate-600 rounded-md !border !border-teal-300 dark:!border-slate-300 bpg-arial overflow-v'>${preview?.outerHTML.replace(/["]/gi, "'")}</div>`;
         setSlides(_slides);
     }
 
@@ -270,6 +272,7 @@ const CreateTest = () => {
         _slides[i].answers = [
             ..._slides[i].answers,
             {
+                questionId: _slides[i].questionId,
                 answer: '',
                 isCorrect: false
             },
@@ -282,18 +285,22 @@ const CreateTest = () => {
         const _slides = [...slides];
         _slides[i].answers = [
             {
+                questionId: _slides[i].questionId,
                 answer: '',
                 isCorrect: false
             },
             {
+                questionId: _slides[i].questionId,
                 answer: '',
                 isCorrect: false
             },
             {
+                questionId: _slides[i].questionId,
                 answer: '',
                 isCorrect: false
             },
             {
+                questionId: _slides[i].questionId,
                 answer: '',
                 isCorrect: false
             },
