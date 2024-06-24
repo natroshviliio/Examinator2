@@ -28,15 +28,15 @@ const ExamLayout = () => {
     <div className='w-screen h-screen bg-white p-2 flex flex-col'>
       {test && (
         <>
-          <div className='p-2 alk-sanet flex justify-between'>
-            <p className='text-3xl font-semibold text-teal-400'>{test.testName}</p>
-            <p className='text-3xl text-center text-teal-400'>შეკითხვა 1 (1 ქულა) / 2</p>
-            <p className='text-3xl text-red-400'>00:02:30</p>
+          <div className='p-2 alk-sanet flex flex-col lg:flex-row items-center lg:justify-between'>
+            <p className='text-3xl font-semibold text-teal-400 lg:w-4/12'>{test.testName}</p>
+            <p className='text-3xl text-center text-teal-400 lg:w-4/12'>1 / 2</p>
+            <p className='text-3xl text-red-400 lg:w-4/12 lg:text-end'>00:02:30</p>
           </div>
           <div className='p-2 flex-1 bpg-arial'>
             {currentQuestion && (
-              <div className='container p-2 mx-auto mt-24 flex gap-4'>
-                <div className='w-7/12'>
+              <div className='container p-2 mx-auto mt-8 lg:mt-24 flex flex-col lg:flex-row gap-4'>
+                <div className='lg:w-7/12'>
                   <div className='p-2'>
                     <div className='p-2 h-[200px] max-h-[200px] overflow-y-auto overflow-v border border-1 rounded-lg mb-3'>
                       {currentQuestion.question}
@@ -45,13 +45,13 @@ const ExamLayout = () => {
                     </div>
                   </div>
                 </div>
-                <div className='w-5/12 p-2'>
-                  <div className='p-2 border border-1 rounded-lg flex flex-col items-center'>
+                <div className='lg:w-5/12 p-2'>
+                  <div className='p-2 border border-1 rounded-lg flex flex-col items-center h-full'>
                     {currentQuestion.answers.map((a, i) => {
                       return (
                         <div key={i} className="w-full flex flex-col 2xl:flex-row 2xl:items-center gap-3 py-4">
                           <div className="border flex items-center px-3 border-teal-300 bpg-arial rounded-md 2xl:w-7/12 dark:border-slate-300 min-h-10 max-h-[100px] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200" name="answer" placeholder="პასუხი...">{a.answer}</div>
-                          <label htmlFor={`correctAns-${i}-${i}`} className="relative inline-flex gap-3 items-center cursor-pointer w-5/12">
+                          <label htmlFor={`correctAns-${i}-${i}`} className="relative inline-flex gap-3 items-center cursor-pointer lg:w-5/12">
                             <input id={`correctAns-${i}-${i}`} type="checkbox" className="sr-only peer" />
                             <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
                             <span
@@ -75,6 +75,9 @@ const ExamLayout = () => {
                 </div>
               </div>
             )}
+          </div>
+          <div className='p-2 alk-sanet border border-1 rounded-lg flex'>
+              <button className='px-5 py-1 ml-auto bg-teal-300 hover:bg-teal-400 rounded-md text-white text-xl'>შემდეგი</button>
           </div>
         </>
       )}
