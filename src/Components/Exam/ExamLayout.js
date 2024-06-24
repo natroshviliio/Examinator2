@@ -33,20 +33,21 @@ const ExamLayout = () => {
             <p className='text-3xl text-center text-teal-400 lg:w-4/12'>1 / 2</p>
             <p className='text-3xl text-red-400 lg:w-4/12 lg:text-end'>00:02:30</p>
           </div>
-          <div className='p-2 flex flex-[1] bpg-arial'>
+          <div className='p-2 flex flex-1 bpg-arial'>
             {currentQuestion && (
-              <div className='container p-2 mx-auto mt-8 lg:mt-24 flex flex-col lg:flex-row gap-4 flex-[1]'>
-                <div className='lg:w-7/12'>
-                  <div className='p-2'>
-                    <div className='p-2 max-h-[200px] overflow-y-auto overflow-v rounded-lg mb-3 text-lg'>
+              <div className='container p-2 mx-auto mt-8 lg:mt-24 flex flex-col lg:flex-row gap-4 flex-auto'>
+                <div className='lg:w-7/12 flex flex-col flex-auto'>
+                  <div className='p-2 border border-0 border-teal-200 rounded-lg flex flex-col flex-auto'>
+                    <div className='p-2 max-h-[200px] overflow-y-auto overflow-v rounded-lg mb-3 text-lg text-teal-500'>
                       {currentQuestion.question}
                     </div>
                     <div dangerouslySetInnerHTML={{ __html: currentQuestion.codePreview.replaceAll('\\n', '\n') }}>
                     </div>
                   </div>
                 </div>
-                <div className='lg:w-5/12 p-2'>
-                  <div className='p-2 border border-1 rounded-lg border-gray-100 flex flex-col items-center'>
+                <div className='lg:w-5/12 flex flex-col flex-auto'>
+                  <div className='p-2 border border-0 rounded-lg border-teal-200 flex flex-col flex-auto items-center'>
+                    <p className='p-2 mr-auto text-lg text-teal-500'>{currentQuestion.correctAnswers > 1 ? 'ერთზე მეტი სწორი პასუხი' : 'ერთი სწორი პასუხი'}</p>
                     {currentQuestion.answers.map((a, i) => {
                       return (
                         <div key={i} className="w-full flex flex-col 2xl:flex-row 2xl:items-center gap-3 py-4">
@@ -77,7 +78,7 @@ const ExamLayout = () => {
             )}
           </div>
           <div className='p-2 alk-sanet border border-1 rounded-lg flex flex-[0] bg-white'>
-              <button className='px-5 py-1 ml-auto bg-teal-300 hover:bg-teal-400 rounded-md text-white text-xl'>შემდეგი</button>
+            <button className='px-5 py-1 ml-auto bg-teal-400 hover:bg-teal-500 rounded-md text-white text-xl'>შემდეგი</button>
           </div>
         </>
       )}

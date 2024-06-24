@@ -7,6 +7,7 @@ import { MdTask } from "react-icons/md";
 import { IoBookSharp, IoChevronBack } from "react-icons/io5";
 import { RiSurveyFill } from "react-icons/ri";
 import Subjects from "./Subjects";
+import Groups from "./Groups";
 
 const Dashboard = () => {
     const [selectedMenuItem, setSelectedMenuItem] = useState(null);
@@ -26,7 +27,8 @@ const Dashboard = () => {
         {
             itemName: 'ჯგუფები',
             actionType: 'page',
-            icon: <FaUserGroup />
+            icon: <FaUserGroup />,
+            component: <Groups />
         },
         {
             itemName: 'გამოკითხვები',

@@ -20,7 +20,7 @@ export const useExaminatorStore = create((set, get) => ({
     ROLES: {
         ADMINISTRATOR: 0x0
     },
-    userData: {userRole: 9},
+    userData: null,
     setUserData: data => set({ userData: data }),
     darkMode: false,
     setDarkMode: (mode) => {
@@ -31,8 +31,18 @@ export const useExaminatorStore = create((set, get) => ({
 function App() {
     axios.defaults.withCredentials = true;
 
-    const { darkMode, setDarkMode, userData, ROLES } = useExaminatorStore();
+    const { darkMode, setDarkMode, userData, setUserData, ROLES, HTTP } = useExaminatorStore();
     const [moding, setModing] = useState(false);
+
+    const getUserData = async () => {
+        await axios.get(`${HTTP}/checkuser`)
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    if (!userData) setUserData(res.data);
+                }
+            })
+            .catch(console.error);
+    }
 
     const [isLoading, setIsLoading] = useState(true);
     const [loadingAnim, setLoadingAnim] = useState(true);
@@ -49,6 +59,7 @@ function App() {
     };
 
     useEffect(() => {
+        getUserData();
         const _darkMode = localStorage.getItem("darkMode");
         if (_darkMode === "true") setDarkMode(true);
         else setDarkMode(false);
@@ -80,7 +91,7 @@ function App() {
                         <Route path="/" element={<Dashboard />} />
                     </Route>
                     ||
-                    userData.userRole === 9 && <Route element={<ExamLayout  />} >
+                    userData.userRole === 9 && <Route element={<ExamLayout />} >
                         <Route path="/" element={<Dashboard />} />
                     </Route>
                 )}
