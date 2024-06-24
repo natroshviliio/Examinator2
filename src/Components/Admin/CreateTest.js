@@ -37,6 +37,8 @@ const CreateTest = () => {
         {
             questionId: 1,
             question: '',
+            startTime: null,
+            endTime: null,
             individualTime: {
                 hours: '00',
                 minutes: '00',
@@ -171,6 +173,8 @@ const CreateTest = () => {
             {
                 questionId: slides.length + 1,
                 question: '',
+                startTime: null,
+                endTime: null,
                 individualTime: {
                     hours: '00',
                     minutes: '00',

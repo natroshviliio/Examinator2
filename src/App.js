@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "alk-sanet/css/alk-sanet.min.css";
 import "/node_modules/bpg-arial/css/bpg-arial.min.css";
-import MainHeader from "./Components/MainHeader";
 import Login from "./Components/Login";
 
 import AdminLayout from "./Components/Admin/AdminLayout";
@@ -12,6 +11,8 @@ import "./App.css";
 import { create } from "zustand";
 import axios from "axios";
 import Dashboard from "./Components/Admin/Dashboard";
+import DefaultLayout from "./Components/DefaultLayout";
+import ExamLayout from "./Components/Exam/ExamLayout";
 
 export const useExaminatorStore = create((set, get) => ({
     HTTP: process.env.REACT_APP_HTTP,
@@ -19,7 +20,7 @@ export const useExaminatorStore = create((set, get) => ({
     ROLES: {
         ADMINISTRATOR: 0x0
     },
-    userData: null,
+    userData: {userRole: 9},
     setUserData: data => set({ userData: data }),
     darkMode: false,
     setDarkMode: (mode) => {
@@ -47,7 +48,6 @@ function App() {
         }
     };
 
-
     useEffect(() => {
         const _darkMode = localStorage.getItem("darkMode");
         if (_darkMode === "true") setDarkMode(true);
@@ -68,14 +68,19 @@ function App() {
     }, []);
 
     return (
-        <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col min-h-screen md:h-screen p-3 ${darkMode ? "dark" : "light"}`}>
+        <div className={`bg-teal-300 dark:bg-slate-800 flex flex-col min-h-screen md:h-screen ${darkMode ? "dark" : "light"}`}>
             {isLoading && <Loading loadingAnim={loadingAnim} />}
-            <MainHeader darkMode={darkMode} changeDarkMode={changeDarkMode} />
             <Routes>
                 {!userData ? (
-                    <Route exact path="/" element={<Login />} />
+                    <Route element={<DefaultLayout darkMode={darkMode} changeDarkMode={changeDarkMode} />}>
+                        <Route exact path="/" element={<Login />} />
+                    </Route>
                 ) : (
-                    userData.userRole === ROLES.ADMINISTRATOR && <Route element={<AdminLayout />} >
+                    userData.userRole === ROLES.ADMINISTRATOR && <Route element={<AdminLayout darkMode={darkMode} changeDarkMode={changeDarkMode} />} >
+                        <Route path="/" element={<Dashboard />} />
+                    </Route>
+                    ||
+                    userData.userRole === 9 && <Route element={<ExamLayout  />} >
                         <Route path="/" element={<Dashboard />} />
                     </Route>
                 )}

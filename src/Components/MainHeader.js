@@ -23,7 +23,7 @@ const MainHeader = ({ darkMode, changeDarkMode }) => {
     }
 
     return (
-        <nav className="w-full relative py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-colors duration-700">
+        <nav className="w-auto m-3 relative py-2 bg-white shadow-lg text-gray-600 dark:bg-slate-700 dark:text-slate-200 rounded-md alk-sanet transition-colors duration-700">
             <div className="container mx-auto">
                 <div className="w-full flex flex-col lg:flex-row">
                     <div className="flex lg:flex-row px-3 py-0 w-full">
