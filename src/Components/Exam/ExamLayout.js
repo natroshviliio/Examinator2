@@ -33,12 +33,12 @@ const ExamLayout = () => {
             <p className='text-3xl text-center text-teal-400 lg:w-4/12'>1 / 2</p>
             <p className='text-3xl text-red-400 lg:w-4/12 lg:text-end'>00:02:30</p>
           </div>
-          <div className='p-2 flex-1 bpg-arial'>
+          <div className='p-2 flex flex-[1] bpg-arial'>
             {currentQuestion && (
-              <div className='container p-2 mx-auto mt-8 lg:mt-24 flex flex-col lg:flex-row gap-4'>
+              <div className='container p-2 mx-auto mt-8 lg:mt-24 flex flex-col lg:flex-row gap-4 flex-[1]'>
                 <div className='lg:w-7/12'>
                   <div className='p-2'>
-                    <div className='p-2 h-[200px] max-h-[200px] overflow-y-auto overflow-v border border-1 rounded-lg mb-3'>
+                    <div className='p-2 max-h-[200px] overflow-y-auto overflow-v rounded-lg mb-3 text-lg'>
                       {currentQuestion.question}
                     </div>
                     <div dangerouslySetInnerHTML={{ __html: currentQuestion.codePreview.replaceAll('\\n', '\n') }}>
@@ -46,7 +46,7 @@ const ExamLayout = () => {
                   </div>
                 </div>
                 <div className='lg:w-5/12 p-2'>
-                  <div className='p-2 border border-1 rounded-lg flex flex-col items-center h-full'>
+                  <div className='p-2 border border-1 rounded-lg border-gray-100 flex flex-col items-center'>
                     {currentQuestion.answers.map((a, i) => {
                       return (
                         <div key={i} className="w-full flex flex-col 2xl:flex-row 2xl:items-center gap-3 py-4">
@@ -76,7 +76,7 @@ const ExamLayout = () => {
               </div>
             )}
           </div>
-          <div className='p-2 alk-sanet border border-1 rounded-lg flex'>
+          <div className='p-2 alk-sanet border border-1 rounded-lg flex flex-[0] bg-white'>
               <button className='px-5 py-1 ml-auto bg-teal-300 hover:bg-teal-400 rounded-md text-white text-xl'>შემდეგი</button>
           </div>
         </>
