@@ -58,10 +58,10 @@ function App() {
         setTimeout(() => {
             setLoadingAnim(false);
             scroll.style.overflow = "auto";
-        }, 1500);
+        }, 500);
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000);
+        }, 1000);
 
         const d = document.addEventListener('contextmenu', (e) => e.preventDefault());
         return () => document.removeEventListener('contextmenu', d);
