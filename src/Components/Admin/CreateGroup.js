@@ -4,17 +4,34 @@ import React, { useEffect, useState } from "react";
 const CreateGroup = ({ toggleGroupModal, setGroups, HTTP }) => {
     const [opacity, setOpacity] = useState(false);
 
-    const [subjectName, setSubjectName] = useState('');
+    const [groupName, setGroupName] = useState('');
+    const [usersInput, setUsersInput] = useState('');
+    const [users, setUsers] = useState([]);
 
-    const handleChangeSubjectName = e => setSubjectName(e.target.value);
+    const handleChangeGroupName = e => setGroupName(e.target.value);
+    const handleChangeUsersInput = e => {
+        const _value = e.target.value;
+        setUsersInput(_value);
 
-    const createSubject = async () => {
-        await axios.post(`${HTTP}/subject`, { subjectName })
+        const _u = _value.replace(/[ ]/gi, ' ').split(/[,| \n;]/gi);
+        const _modified = _u.filter(x => {
+            const _a = x.split('@');
+            if(_a.length === 2) {
+                if(_a[1].includes('.') && !_a[1].endsWith('.') && !_a[0].startsWith('.') && _a[1].length > 2) {
+                    return true;
+                }
+            }
+        }).map(x => x.replace(/[/|\\'"[\]`:><?{\}!#$%^&*()+=\~]/gi, ''));
+        setUsers([...new Set(_modified)]);
+    }
+
+    const createGroup = async () => {
+        await axios.post(`${HTTP}/creategroup`, { groupName, groupMembers: users })
             .then(res => {
                 if (res.status >= 200 && res.status <= 226) {
                     setGroups(g => [...g, res.data]);
                     toggleGroupModal();
-                    setSubjectName('');
+                    setGroupName('');
                 }
             })
             .catch(console.error);
@@ -38,15 +55,24 @@ const CreateGroup = ({ toggleGroupModal, setGroups, HTTP }) => {
                             <div className="text-gray-600 dark:text-slate-200 dark:bg-slate-600 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 ჯგუფის შექმნა
                             </div>
-                            <div className="p-3 flex flex-col gap-3">
-                                <input type="text" className="w-[85%] mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700 focus:ring-teal-400 focus:border-teal-400 dark:focus:ring-slate-300 dark:focus:border-slate-300" placeholder="ჯგუფის სახელი" value={subjectName} onChange={handleChangeSubjectName} />
-                                <textarea className="w-[85%] mx-auto bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-[12rem] max-h-[32rem]" name="question" placeholder="დაამატეთ მონაწილეები, მაგ johndavis@example.com, anotheruser@example.com"></textarea>
+                            <div className="p-3">
+                                <div className="w-[85%] mx-auto flex flex-col gap-3">
+                                <input type="text" className="w-full mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700 focus:ring-teal-400 focus:border-teal-400 dark:focus:ring-slate-300 dark:focus:border-slate-300" placeholder="ჯგუფის სახელი" value={groupName} onChange={handleChangeGroupName} />
+                                <textarea className="w-full mx-auto bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-[12rem] max-h-[32rem] overflow-v" name="question" placeholder="დაამატეთ მონაწილეები, მაგ johndavis@example.com, anotheruser@example.com" value={usersInput} onChange={handleChangeUsersInput}></textarea>
+                                <div className="p-2 flex gap-3 flex-wrap bpg-arial max-h-[300px] overflow-y-auto overflow-v">
+                                    {users.map((u, i) => {
+                                        return (
+                                            <span key={i} className="py-1 px-3 bg-teal-400 rounded-xl text-white">{u}</span>
+                                        )
+                                    })}
+                                </div>
+                                </div>
                             </div>
                             <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex flex-col sm:flex-row sm:px-6">
                                 <button
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-teal-400 hover:bg-teal-500 dark:bg-slate-400 dark:hover:bg-slate-500 px-3 py-2 text-md text-white shadow-sm sm:ml-3 sm:w-auto"
-                                    onClick={createSubject}
+                                    onClick={createGroup}
                                 >
                                     შექმნა
                                 </button>
