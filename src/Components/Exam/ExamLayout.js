@@ -14,7 +14,7 @@ const ExamLayout = () => {
       .then(res => {
         if (res.status >= 200 && res.status <= 226) {
           setTest(res.data[0]);
-          setCurrentQuestion(res.data[0].questions[0]);
+          setCurrentQuestion(res.data[0].questions[5]);
         }
       })
       .catch(console.error);
