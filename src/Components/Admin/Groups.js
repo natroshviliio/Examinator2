@@ -56,7 +56,7 @@ const Groups = () => {
                                 <span className="text-slate-400 group-hover:text-white rounded-full group-hover: transition-all duration-300 ml-auto text-xl">{expandedGroups.includes(s.groupId) ? <IoIosArrowUp /> :<IoIosArrowDown />}</span>
                             </button>
                             <div className={`${expandedGroups.includes(s.groupId) ? 'flex' : 'hidden' } p-2 border border-1 border-teal-300 dark:border-slate-500 mt-2 rounded-lg flex-wrap gap-3`}>
-                                {s.groupMembers.split(',').map((m, j) => {
+                                {s.groupMembers?.split(',').map((m, j) => {
                                     return (
                                         <span key={j} className="px-3 py-1 bg-teal-400 hover:bg-teal-300 rounded-xl text-white cursor-pointer">{m}</span>
                                     )
