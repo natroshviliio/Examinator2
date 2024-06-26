@@ -19,15 +19,18 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
 
     const [testsWithSubjects, setTestsWithSubjects] = useState([]);
     const [groups, setGroups] = useState([]);
-    const [groupsDropdown, setGroupsDropdown] = useState(false);
+    const [groupsDropdown, setGroupsDropdown] = useState([]);
 
-    const toggleGroupsDropdown = () => setGroupsDropdown(!groupsDropdown);
+    const toggleGroupsDropdown = (testId) => {
+        if (groupsDropdown.includes(testId)) setGroupsDropdown(g => g.filter(x => x !== testId));
+        else setGroupsDropdown(g => [...g, testId]);
+    }
 
-    const selectGroupForTest  = (i, j, grp) => {
+    const selectGroupForTest = (i, j, grp) => {
         const _testsWithSubjects = [...testsWithSubjects];
         _testsWithSubjects[i].tests[j]["group"] = grp;
 
-        toggleGroupsDropdown();
+        toggleGroupsDropdown(_testsWithSubjects[i].tests[j].testId);
         setTestsWithSubjects(_testsWithSubjects);
     }
 
@@ -52,33 +55,37 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
     }
 
     const generateTestpassword = async (i, j, testId) => {
-        await axios.post(`${HTTP}/gentestpassword`, {testId})
-        .then(res => {
-            if(res.status >= 200 && res.status <= 226) {
-                const _testsWithSubjects = [...testsWithSubjects];
-                _testsWithSubjects[i].tests[j].password = res.data;
+        await axios.post(`${HTTP}/gentestpassword`, { testId })
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    const _testsWithSubjects = [...testsWithSubjects];
+                    _testsWithSubjects[i].tests[j].password = res.data;
 
-                setTestsWithSubjects(_testsWithSubjects);
-            }
-        })
-        .catch(console.error);
+                    setTestsWithSubjects(_testsWithSubjects);
+                }
+            })
+            .catch(console.error);
     }
 
-    const enableTest = async (i, j, testId, groupId) => {
-        await axios.post(`${HTTP}/enabletest`, {testId, groupId})
-        .then(res => {
-            if(res.status >= 200 && res.status <= 226) {
-                const _testsWithSubjects = [...testsWithSubjects];
-                _testsWithSubjects[i].tests[j]["isTestEnabled"] = {
-                    ..._testsWithSubjects[i].tests[j]["group"],
-                    testId: _testsWithSubjects[i].tests[j].testId,
-                    userId: _testsWithSubjects[i].tests[j].userId,
-                    enabledTestsId: res.data
+    const enableTest = async (i, j, test) => {
+        await axios.post(`${HTTP}/enabletest`, { testId: test.testId, groupId: test.group?.groupId, enabledTestsId: test.isTestEnabled?.enabledTestsId })
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    const _testsWithSubjects = [...testsWithSubjects];
+                    if (test.isTestEnabled) {
+                        _testsWithSubjects[i].tests[j]["isTestEnabled"] = null;
+                    } else {
+                        _testsWithSubjects[i].tests[j]["isTestEnabled"] = {
+                            ..._testsWithSubjects[i].tests[j]["group"],
+                            testId: _testsWithSubjects[i].tests[j].testId,
+                            userId: _testsWithSubjects[i].tests[j].userId,
+                            enabledTestsId: res.data.insertId
+                        }
+                    }
+                    setTestsWithSubjects(_testsWithSubjects);
                 }
-
-                setTestsWithSubjects(_testsWithSubjects);
-            }
-        })
+            })
+            .catch(console.error);
     }
 
     useEffect(() => {
@@ -97,7 +104,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                     <div className="mt-3">
                         {testsWithSubjects.map((s, i) => {
                             return (
-                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 overflow-hidden transition-colors duration-700 border-none">
+                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 overflow-hidden transition-colors duration-700 border-none mb-2">
                                     <Accordion.Panel>
                                         <Accordion.Title className="flex border-none overflow-hidden outline-none items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-600 hover:bg-slate-100 dark:hover:bg-slate-600 gap-3 dark:bg-slate-700 transition-colors duration-700">{s.subjectName}</Accordion.Title>
                                         <Accordion.Content className="bg-white dark:bg-slate-700 transition-colors duration-700 p-0">
@@ -123,7 +130,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                     <button className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">
                                                                         <GrCopy />
                                                                     </button>
-                                                                    <button className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800" onClick={() => generateTestpassword(i, j, t.testId)}>
+                                                                    <button disabled={t.isTestEnabled} className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800" onClick={() => generateTestpassword(i, j, t.testId)}>
                                                                         <IoIosRefresh />
                                                                     </button>
                                                                 </span>
@@ -132,14 +139,14 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                     <span>ჯგუფი:</span>
                                                                     <div className="relative inline-block text-left w-fit">
                                                                         <div>
-                                                                            <button type="button" className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-0 dark:text-gray-100 ml-2 py-0 px-0 text-sm text-gray-600 shadow-sm border-0 shadow-0 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true" onClick={toggleGroupsDropdown}>
+                                                                            <button type="button" disabled={t.isTestEnabled} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-0 dark:text-gray-100 ml-2 py-0 px-0 text-sm text-gray-600 shadow-sm border-0 shadow-0 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => toggleGroupsDropdown(t.testId)}>
                                                                                 {t.group ? t.group.groupName : 'აირჩიეთ ჯგუფი'}
                                                                                 <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                                     <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                                                                                 </svg>
                                                                             </button>
                                                                         </div>
-                                                                        {groupsDropdown && (
+                                                                        {groupsDropdown.includes(t.testId) && (
                                                                             <div className="absolute left-[0] z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-y-auto overflow-v" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                                                                 <div className="py-1" role="none">
                                                                                     {groups.map((g, k) => {
@@ -154,7 +161,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
-                                                                <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800" onClick={() => enableTest(i, j, t.testId, t.group.groupId)}>გააქტიურება</button>
+                                                                <button className={`text-md w-1/2 py-1 px-2 rounded ${t.isTestEnabled ? 'bg-red-400 hover:bg-red-500 active:bg-red-600' : 'bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600'} outline-none dark:hover:bg-slate-600 dark:active:bg-slate-800`} onClick={() => enableTest(i, j, t)}>{t.isTestEnabled ? 'დასრულება' : 'გააქტიურება'}</button>
                                                                 <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">რედაქტირება</button>
                                                             </div>
                                                         </div>
