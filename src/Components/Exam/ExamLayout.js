@@ -3,25 +3,27 @@ import React, { useEffect, useState } from 'react'
 import { useExaminatorStore } from '../../App';
 
 const ExamLayout = () => {
-  const { HTTP } = useExaminatorStore();
+  const { HTTP, userData } = useExaminatorStore();
 
   const [time, setTime] = useState(130000);
   const [test, setTest] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
 
-  const getTest = async () => {
-    await axios.get(`${HTTP}/test`)
-      .then(res => {
-        if (res.status >= 200 && res.status <= 226) {
-          setTest(res.data[0]);
-          setCurrentQuestion(res.data[1].questions[1]);
-        }
-      })
-      .catch(console.error);
-  }
+  // const getTest = async () => {
+  //   await axios.get(`${HTTP}/test`)
+  //     .then(res => {
+  //       if (res.status >= 200 && res.status <= 226) {
+  //         setTest(res.data[0]);
+  //         setCurrentQuestion(res.data[1].questions[1]);
+  //       }
+  //     })
+  //     .catch(console.error);
+  // }
 
   useEffect(() => {
-    getTest();
+    console.log([1, 2, 3, 4, 2, 7].findLastIndex(x => x === 2));
+    setTest(userData?.progress?.questions);
+    setCurrentQuestion(userData?.progress?.questions[1]);
   }, [])
 
   return (

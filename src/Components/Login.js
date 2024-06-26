@@ -7,7 +7,8 @@ const Login = () => {
 
     const [loginForm, setLoginForm] = useState({
         email: '',
-        password: ''
+        password: '',
+        invited: false,
     });
 
     const handleChangeForm = e => {
@@ -16,21 +17,38 @@ const Login = () => {
         setLoginForm(_loginForm);
     }
 
+    const handleChangeInvited = e => {
+        const _loginForm = { ...loginForm };
+        _loginForm[e.target.name] = e.target.checked;
+        setLoginForm(_loginForm);
+    }
+
     const login = async () => {
-        await axios.post(`${HTTP}/login`, { ...loginForm })
-            .then(res => {
-                if (res.status >= 200 && res.status <= 226) {
-                    if (res.data.status) {
-                        setUserData(res.data.userData);
-                    } else {
-                        // setUserData({ userRole: 0 })
+        if (loginForm.invited) {
+            await axios.post(`${HTTP}/startexam`, { ...loginForm })
+                .then(res => {
+                    if (res.status >= 200 && res.status <= 226) {
+                        if (res.data.status) {
+                            setUserData(res.data.userData);
+                        }
                     }
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                // setUserData({ userRole: 0 })
-            });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            await axios.post(`${HTTP}/login`, { ...loginForm })
+                .then(res => {
+                    if (res.status >= 200 && res.status <= 226) {
+                        if (res.data.status) {
+                            setUserData(res.data.userData);
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     }
 
     return (
@@ -40,7 +58,7 @@ const Login = () => {
                 <input type="email" placeholder="ელფოსტა" className="border border-gray-300 p-2 w-full text-xl rounded-md outline-0 text-gray-600 text-center mb-4 dark:bg-slate-200" name="email" value={loginForm.email} onChange={handleChangeForm} onKeyDown={e => e.key === 'Enter' && login()} />
                 <input type="password" placeholder="პაროლი" className="border border-gray-300 p-2 w-full text-xl rounded-md outline-0 text-gray-600 text-center mb-4 dark:bg-slate-200" name="password" value={loginForm.password} onChange={handleChangeForm} onKeyDown={e => e.key === 'Enter' && login()} />
                 <label htmlFor={`examer`} className="relative inline-flex gap-3 items-center cursor-pointer mr-auto mb-3">
-                    <input id={`examer`} type="checkbox" className="sr-only peer" />
+                    <input id={`examer`} type="checkbox" name="invited" value={loginForm.invited} onChange={handleChangeInvited} className="sr-only peer" />
                     <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
                     <span
                         className={`

@@ -104,9 +104,9 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                     <div className="mt-3">
                         {testsWithSubjects.map((s, i) => {
                             return (
-                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 transition-colors duration-700 border-none mb-2">
+                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 transition-colors duration-700 border-none mb-2 text-gray-600">
                                     <Accordion.Panel>
-                                        <Accordion.Title className="flex border-none overflow-hidden outline-none items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-600 hover:bg-slate-100 dark:hover:bg-slate-600 gap-3 dark:bg-slate-700 transition-colors duration-700">{s.subjectName}</Accordion.Title>
+                                        <Accordion.Title className="flex border-0 focus:ring-0 hover:!bg-transparent !rounded-md overflow-hidden outline-none items-center justify-between w-full p-5 font-medium rtl:text-right gap-3 transition-colors duration-700  hover:bg-slate-100 dark:hover:bg-slate-600 dark:bg-slate-700">{s.subjectName}</Accordion.Title>
                                         <Accordion.Content className="bg-white dark:bg-slate-700 transition-colors duration-700 p-0">
                                             {s.tests?.map((t, j) => {
                                                 const testTime = t.testTime / 1000;
@@ -161,7 +161,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
-                                                                <button className={`text-md w-1/2 py-1 px-2 rounded ${t.isTestEnabled ? 'bg-red-400 hover:bg-red-500 active:bg-red-600' : 'bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600'} outline-none dark:hover:bg-slate-600 dark:active:bg-slate-800`} onClick={() => enableTest(i, j, t)}>{t.isTestEnabled ? 'დასრულება' : 'გააქტიურება'}</button>
+                                                                <button className={`text-md w-1/2 py-1 px-2 rounded ${t.isTestEnabled ? 'bg-red-400 hover:bg-red-500 active:bg-red-600' : 'bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600'} outline-none`} onClick={() => enableTest(i, j, t)}>{t.isTestEnabled ? 'დასრულება' : 'გააქტიურება'}</button>
                                                                 <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">რედაქტირება</button>
                                                             </div>
                                                         </div>
