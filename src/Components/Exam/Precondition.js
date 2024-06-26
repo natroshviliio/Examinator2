@@ -29,6 +29,10 @@ const Precondition = ({ test, setTest, setCurrentQuestion, setIsTestStarted }) =
                 <div className="text-lg mt-2">კითხვების რაოდენობა: <b>{testInformation.questionsLength}</b></div>
                 <div className="text-lg mt-2">ქულების მაქსიმალური რაოდენობა: <b>{testInformation.maxScore}</b></div>
                 <div className="text-lg mt-2 flex gap-3 items-center">ინდივიდუალური დრო ტესტზე: {testInformation.isGeneralTime ? <AiOutlineClose className="text-red-400" /> : <FaCheck className="text-emerald-400" />}</div>
+                <div className="mt-5 text-center"><i><b>გაითვალისწინეთ რომ ტესტში შესაძლოა შეგხვდეთ კითხვა რომელიც შეიცავს ერთზე მეტ სწორ პასუხს.</b></i></div>
+                <div className="mt-5 text-lg"><b>გისურვებთ წარმატებას</b></div>
+                <button className="px-6 py-1 text-lg bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 text-white rounded-md mt-8">დაწყება</button>
+                <button className="px-6 py-1 text-lg bg-red-400 hover:bg-red-500 active:bg-red-600 text-white rounded-md mt-3">გაუქმება</button>
             </div>
         </div>
     )
