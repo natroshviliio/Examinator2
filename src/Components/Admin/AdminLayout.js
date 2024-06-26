@@ -104,7 +104,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                     <div className="mt-3">
                         {testsWithSubjects.map((s, i) => {
                             return (
-                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 overflow-hidden transition-colors duration-700 border-none mb-2">
+                                <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 transition-colors duration-700 border-none mb-2">
                                     <Accordion.Panel>
                                         <Accordion.Title className="flex border-none overflow-hidden outline-none items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-600 hover:bg-slate-100 dark:hover:bg-slate-600 gap-3 dark:bg-slate-700 transition-colors duration-700">{s.subjectName}</Accordion.Title>
                                         <Accordion.Content className="bg-white dark:bg-slate-700 transition-colors duration-700 p-0">
