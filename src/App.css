@@ -72,3 +72,8 @@ input,
 button {
 	outline: none !important;
 }
+
+.progress-bar {
+	border-radius: 50%;
+	transform: rotate(180deg);
+}

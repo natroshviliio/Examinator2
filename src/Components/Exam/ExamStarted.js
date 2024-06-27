@@ -21,11 +21,12 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion, isTes
     const nextQuestion = async () => {
         const _tests = { ...test };
         const _currentQuestion = { ...currentQuestion };
-        const _isLastQuestion = (typeof currentQuestionIndex === "number") && (currentQuestionIndex === _tests.questions.length - 1);
+        const _currentQuestionIndex = currentQuestionIndex || test.questions.findIndex(x => x.questionId === currentQuestion.questionId)
+        const _isLastQuestion = (typeof _currentQuestionIndex === "number") && (_currentQuestionIndex === _tests.questions.length - 1);
 
         if (_isLastQuestion) {
             _currentQuestion.endTime = new Date().getTime();
-            _tests.questions[currentQuestionIndex] = _currentQuestion;
+            _tests.questions[_currentQuestionIndex] = _currentQuestion;
             setTest(_tests);
 
             await axios.post(`${HTTP}/finishexam`, { test: _tests })
@@ -39,15 +40,15 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion, isTes
                 .catch(console.error);
 
         } else {
-            if (typeof currentQuestionIndex === "number") {
+            if (typeof _currentQuestionIndex === "number") {
                 _currentQuestion.endTime = new Date().getTime();
-                _tests.questions[currentQuestionIndex] = _currentQuestion;
-                _tests.questions[currentQuestionIndex + 1].startTime = new Date().getTime() + _tests.questions[currentQuestionIndex + 1].individualTime;
-                setCurrentQuestion(_tests.questions[currentQuestionIndex + 1]);
+                _tests.questions[_currentQuestionIndex] = _currentQuestion;
+                _tests.questions[_currentQuestionIndex + 1].startTime = new Date().getTime() + _tests.questions[_currentQuestionIndex + 1].individualTime;
+                setCurrentQuestion(_tests.questions[_currentQuestionIndex + 1]);
                 setTest(_tests);
 
                 const t = new Date().getTime();
-                const x = (_tests.questions[currentQuestionIndex + 1].startTime - t) / 1000
+                const x = (_tests.questions[_currentQuestionIndex + 1].startTime - t) / 1000
                 const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
                 const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
                 const s = Math.floor(x % 60).toString().padStart(2, '0');
@@ -82,7 +83,12 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion, isTes
 
         return () => clearInterval(interval);
 
-    }, [currentTime, currentQuestion])
+    }, [currentTime, currentQuestion]);
+
+    useEffect(() => {
+        const t = new Date().getTime();
+        if (t > currentQuestion?.startTime) nextQuestion();
+    }, [])
 
 
 

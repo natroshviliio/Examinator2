@@ -26,6 +26,7 @@ const CreateTest = () => {
         maxScore: undefined,
         generalDistribution: false,
         subject: null,
+        boundary: 0,
         testTime: {
             hours: '00',
             minutes: '00',
@@ -145,6 +146,16 @@ const CreateTest = () => {
     const handleChangeTestValues = (e) => {
         const _generalSettings = { ...generalSettings };
         _generalSettings[e.target.name] = e.target.value;
+        setGeneralSettings(_generalSettings);
+    }
+
+    const handleChangeBoundary = e => {
+        let _value = Number(e.target.value);
+        const _generalSettings = { ...generalSettings };
+        if (_value < 0) _value = 0;
+        if (_value > 100) _value = 100;
+        _generalSettings.boundary = _value;
+
         setGeneralSettings(_generalSettings);
     }
 
@@ -452,6 +463,7 @@ const CreateTest = () => {
                             </div>
                         )}
                     </div>
+                    <input type="number" className="py-1 w-[120px] rounded-md border-teal-400 focus:border-teal-400 focus:ring-teal-400 dark:border-slate-300 dark:focus:border-slate-300 dark:focus:ring-slate-300 bg-white dark:bg-slate-500 dark:placeholder:text-gray-200 text-center" placeholder="ზღვარი %" name="boundary" onKeyDown={restrictKeys} value={generalSettings.boundary} onChange={handleChangeBoundary} />
                 </div>
                 <div className="flex items-center lg:ml-auto">
                     <button className="bg-teal-300 dark:bg-slate-400 text-gray-600 dark:text-white px-3 py-1 rounded-md hover:bg-teal-400 dark:hover:bg-slate-500" onClick={createTest}>დასრულება</button>
