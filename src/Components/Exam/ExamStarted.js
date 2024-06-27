@@ -1,12 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useExaminatorStore } from "../../App";
+import axios from "axios";
 
 const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => {
+    const { HTTP } = useExaminatorStore();
+
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentTime, setCurrentTime] = useState('00:00:00');
+
+    useEffect(() => {
+        setCurrentQuestionIndex(test.questions.findIndex(x => x.questionId === currentQuestion.questionId));
+    }, [currentQuestion]);
+
+    const checkAnswer = (e, i) => {
+        const _currentQuestion = { ...currentQuestion };
+        _currentQuestion.answers[i].isCorrect = e.target.checked;
+        setCurrentQuestion(_currentQuestion);
+    }
+
+    const nextQuestion = async () => {
+        const _tests = { ...test };
+        const _currentQuestion = { ...currentQuestion };
+        const _isLastQuestion = currentQuestionIndex === _tests.questions.length - 1;
+
+        if (_isLastQuestion) {
+
+        } else {
+            _currentQuestion.endTime = new Date().getTime();
+            _tests.questions[currentQuestionIndex] = _currentQuestion;
+            _tests.questions[currentQuestionIndex + 1].startTime = new Date().getTime() + _tests.questions[currentQuestionIndex + 1].individualTime;
+            setCurrentQuestion(_tests.questions[currentQuestionIndex + 1]);
+            setTest(_tests);
+
+            const t = new Date().getTime();
+            const x = (_tests.questions[currentQuestionIndex + 1].startTime - t) / 1000
+            const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
+            const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
+            const s = Math.floor(x % 60).toString().padStart(2, '0');
+
+            setCurrentTime(`${h}:${m}:${s}`);
+
+            await axios.post(`${HTTP}/updateexamstatus`, { test: _tests })
+                .then(res => {
+                    if (res.status >= 200 && res.status <= 226) {
+                        console.log(1);
+                    }
+                })
+                .catch(console.error);
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const t = new Date().getTime();
+            const x = (currentQuestion.startTime - t) / 1000
+            const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
+            const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
+            const s = Math.floor(x % 60).toString().padStart(2, '0');
+
+            setCurrentTime(`${h}:${m}:${s}`);
+
+        }, 1000);
+
+        return () => clearInterval(interval);
+
+    }, [currentTime, currentQuestion])
+
+
     return (
         <>
             <div className='p-2 alk-sanet flex flex-col lg:flex-row items-center lg:justify-between'>
                 <p className='text-3xl font-semibold text-teal-400 lg:w-4/12'>{test.testName}</p>
-                <p className='text-3xl text-center text-teal-400 lg:w-4/12'>1 / 2</p>
-                <p className='text-3xl text-red-400 lg:w-4/12 lg:text-end'>00:02:30</p>
+                <p className='text-3xl text-center text-teal-400 lg:w-4/12'>{currentQuestionIndex + 1} / {test.questions.length}</p>
+                <p className='text-3xl text-red-400 lg:w-4/12 lg:text-end'>{currentTime}</p>
             </div>
             <div className='p-2 flex flex-1 bpg-arial'>
                 {currentQuestion && (
@@ -16,8 +82,7 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => 
                                 <div className='p-2 max-h-[200px] overflow-y-auto overflow-v rounded-lg mb-3 text-lg text-teal-500'>
                                     {currentQuestion.question}
                                 </div>
-                                <div dangerouslySetInnerHTML={{ __html: currentQuestion.codePreview.replaceAll('\\n', '\n') }}>
-                                </div>
+                                <div dangerouslySetInnerHTML={{ __html: currentQuestion.codePreview.replaceAll('\\n', '\n') }}></div>
                             </div>
                         </div>
                         <div className='lg:w-5/12 flex flex-col flex-auto'>
@@ -28,18 +93,18 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => 
                                         <div key={i} className="w-full flex flex-col 2xl:flex-row 2xl:items-center gap-3 py-4">
                                             <div className="border flex items-center px-3 border-teal-300 bpg-arial rounded-md 2xl:w-7/12 dark:border-slate-300 min-h-10 max-h-[100px] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200" name="answer" placeholder="პასუხი...">{a.answer}</div>
                                             <label htmlFor={`correctAns-${i}-${i}`} className="relative inline-flex gap-3 items-center cursor-pointer lg:w-5/12">
-                                                <input id={`correctAns-${i}-${i}`} type="checkbox" className="sr-only peer" />
+                                                <input id={`correctAns-${i}-${i}`} type="checkbox" checked={a.isCorrect} onChange={e => checkAnswer(e, i)} className="sr-only peer" />
                                                 <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
                                                 <span
                                                     className={`
-                                  absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
-                                  flex items-center justify-center
-                                  text-amber-500
-                                  peer-checked:text-slate-800
-                                  text-2xl
-                                  bg-teal-400
-                                  dark:bg-slate-500
-                              `}>
+                                                        absolute w-4 h-4 top-[4px] left-[2px] peer-checked:left-[9px] rounded-full peer transition-all duration-500 peer-checked:translate-x-full
+                                                        flex items-center justify-center
+                                                        text-amber-500
+                                                        peer-checked:text-slate-800
+                                                        text-2xl
+                                                        bg-teal-400
+                                                        dark:bg-slate-500
+                                                    `}>
                                                 </span>
                                                 <span className="hidden peer-checked:block text-emerald-400">სწორი პასუხი</span>
                                                 <span className="block peer-checked:hidden text-red-500 dark:text-red-400">არასწორი პასუხი</span>
@@ -53,7 +118,7 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => 
                 )}
             </div>
             <div className='p-2 alk-sanet border border-1 rounded-lg flex flex-[0] bg-white'>
-                <button className='px-5 py-1 ml-auto bg-teal-400 hover:bg-teal-500 rounded-md text-white text-xl'>შემდეგი</button>
+                <button className='px-5 py-1 ml-auto bg-teal-400 hover:bg-teal-500 rounded-md text-white text-xl' onClick={nextQuestion}>შემდეგი</button>
             </div>
         </>
     );

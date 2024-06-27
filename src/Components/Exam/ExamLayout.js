@@ -7,8 +7,8 @@ import Precondition from './Precondition';
 const ExamLayout = () => {
   const { HTTP, userData } = useExaminatorStore();
 
-  const [time, setTime] = useState(130000);
   const [test, setTest] = useState(null);
+  const [examInfo, setExamInfo] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [isTestStarted, setIsTestStarted] = useState(false);
 
@@ -25,15 +25,16 @@ const ExamLayout = () => {
 
   useEffect(() => {
     console.log(userData);
-    setTest(userData?.progress?.questions);
+    setTest(userData?.progress);
+    setExamInfo(userData?.progress);
     setCurrentQuestion(userData?.progress?.questions.findLast(x => x.startTime && !x.endTime));
-    setTest(userData?.progress?.questions.some(x => x.startTime))
+    setIsTestStarted(userData?.progress?.questions.some(x => x.startTime));
   }, [])
 
   return (
     <div className='w-screen h-screen bg-white p-2 flex flex-col'>
       {isTestStarted && <ExamStarted test={test} setTest={setTest} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />}
-      {!isTestStarted && <Precondition test={userData?.progress} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} />}
+      {!isTestStarted && <Precondition examInfo={examInfo} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} />}
     </div>
   )
 }

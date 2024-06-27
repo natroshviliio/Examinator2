@@ -25,7 +25,7 @@ const Login = () => {
 
     const login = async () => {
         if (loginForm.invited) {
-            await axios.post(`${HTTP}/startexam`, { ...loginForm })
+            await axios.post(`${HTTP}/getready`, { ...loginForm })
                 .then(res => {
                     if (res.status >= 200 && res.status <= 226) {
                         if (res.data.status) {
