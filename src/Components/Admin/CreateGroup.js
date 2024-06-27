@@ -16,8 +16,8 @@ const CreateGroup = ({ toggleGroupModal, setGroups, HTTP }) => {
         const _u = _value.replace(/[ ]/gi, ' ').split(/[,| \n;]/gi);
         const _modified = _u.filter(x => {
             const _a = x.split('@');
-            if(_a.length === 2) {
-                if(_a[1].includes('.') && !_a[1].endsWith('.') && !_a[0].startsWith('.') && _a[1].length > 2) {
+            if (_a.length === 2) {
+                if (_a[1].includes('.') && !_a[1].endsWith('.') && !_a[0].startsWith('.') && _a[1].length > 2) {
                     return true;
                 }
             }
@@ -57,15 +57,15 @@ const CreateGroup = ({ toggleGroupModal, setGroups, HTTP }) => {
                             </div>
                             <div className="p-3">
                                 <div className="w-[85%] mx-auto flex flex-col gap-3">
-                                <input type="text" className="w-full mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700 focus:ring-teal-400 focus:border-teal-400 dark:focus:ring-slate-300 dark:focus:border-slate-300" placeholder="ჯგუფის სახელი" value={groupName} onChange={handleChangeGroupName} />
-                                <textarea className="w-full mx-auto bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-[12rem] max-h-[32rem] overflow-v" name="question" placeholder="დაამატეთ მონაწილეები, მაგ johndavis@example.com, anotheruser@example.com" value={usersInput} onChange={handleChangeUsersInput}></textarea>
-                                <div className="p-2 flex gap-3 flex-wrap bpg-arial max-h-[300px] overflow-y-auto overflow-v">
-                                    {users.map((u, i) => {
-                                        return (
-                                            <span key={i} className="py-1 px-3 bg-teal-400 rounded-xl text-white">{u}</span>
-                                        )
-                                    })}
-                                </div>
+                                    <input type="text" className="w-full mx-auto rounded-md border-gray-300 dark:bg-slate-300 dark:text-gray-700 focus:ring-teal-400 focus:border-teal-400 dark:focus:ring-slate-300 dark:focus:border-slate-300" placeholder="ჯგუფის სახელი" value={groupName} onChange={handleChangeGroupName} />
+                                    <textarea className="w-full mx-auto bpg-arial rounded-md border-teal-300 focus:ring-teal-300 focus:border-teal-300 dark:border-slate-300 dark:focus:ring-slate-300 bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200 dark:placeholder:text-gray-200 min-h-[12rem] max-h-[32rem] overflow-v" name="question" placeholder="დაამატეთ მონაწილეები, მაგ johndavis@example.com, anotheruser@example.com" value={usersInput} onChange={handleChangeUsersInput}></textarea>
+                                    <div className="p-2 flex gap-3 flex-wrap bpg-arial max-h-[300px] overflow-y-auto overflow-v">
+                                        {users.map((u, i) => {
+                                            return (
+                                                <span key={i} className="py-1 px-3 bg-teal-400 rounded-xl text-white">{u}</span>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                             <div className="bg-white dark:bg-slate-600 px-4 py-3 justify-end gap-2 flex flex-col sm:flex-row sm:px-6">

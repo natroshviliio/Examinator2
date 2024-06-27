@@ -25,7 +25,9 @@ export const useExaminatorStore = create((set, get) => ({
     darkMode: false,
     setDarkMode: (mode) => {
         set({ darkMode: mode });
-    }
+    },
+    testsWithSubjects: [],
+    setTestsWithSubjects: data => set({ testsWithSubjects: data })
 }))
 
 function App() {

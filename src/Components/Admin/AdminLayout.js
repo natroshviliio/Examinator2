@@ -7,24 +7,21 @@ import { FaUserGroup } from "react-icons/fa6";
 import { GrCopy } from "react-icons/gr";
 import { Accordion } from "flowbite-react";
 
-
 import { Outlet } from "react-router-dom";
 import MainHeader from "../MainHeader";
 import axios from "axios";
 import { useExaminatorStore } from "../../App";
 
-
 const AdminLayout = ({ darkMode, changeDarkMode }) => {
-    const { HTTP } = useExaminatorStore();
+    const { HTTP, testsWithSubjects, setTestsWithSubjects } = useExaminatorStore();
 
-    const [testsWithSubjects, setTestsWithSubjects] = useState([]);
     const [groups, setGroups] = useState([]);
     const [groupsDropdown, setGroupsDropdown] = useState([]);
 
     const toggleGroupsDropdown = (testId) => {
-        if (groupsDropdown.includes(testId)) setGroupsDropdown(g => g.filter(x => x !== testId));
-        else setGroupsDropdown(g => [...g, testId]);
-    }
+        if (groupsDropdown.includes(testId)) setGroupsDropdown((g) => g.filter((x) => x !== testId));
+        else setGroupsDropdown((g) => [...g, testId]);
+    };
 
     const selectGroupForTest = (i, j, grp) => {
         const _testsWithSubjects = [...testsWithSubjects];
@@ -32,31 +29,34 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
 
         toggleGroupsDropdown(_testsWithSubjects[i].tests[j].testId);
         setTestsWithSubjects(_testsWithSubjects);
-    }
+    };
 
     const getTestsSortedWithSubjects = async () => {
         await axios(`${HTTP}/testswithsubjects`)
-            .then(res => {
+            .then((res) => {
                 if (res.status >= 200 && res.status <= 226) {
                     setTestsWithSubjects(res.data);
+                    console.log(res.data);
                 }
             })
             .catch(console.error);
-    }
+    };
 
     const getMembersGroups = async () => {
-        await axios.get(`${HTTP}/mgroups`)
-            .then(res => {
+        await axios
+            .get(`${HTTP}/mgroups`)
+            .then((res) => {
                 if (res.status >= 200 && res.status <= 226) {
                     setGroups(res.data);
                 }
             })
             .catch(console.error);
-    }
+    };
 
     const generateTestpassword = async (i, j, testId) => {
-        await axios.post(`${HTTP}/gentestpassword`, { testId })
-            .then(res => {
+        await axios
+            .post(`${HTTP}/gentestpassword`, { testId })
+            .then((res) => {
                 if (res.status >= 200 && res.status <= 226) {
                     const _testsWithSubjects = [...testsWithSubjects];
                     _testsWithSubjects[i].tests[j].password = res.data;
@@ -65,11 +65,12 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                 }
             })
             .catch(console.error);
-    }
+    };
 
     const enableTest = async (i, j, test) => {
-        await axios.post(`${HTTP}/enabletest`, { testId: test.testId, groupId: test.group?.groupId, enabledTestsId: test.isTestEnabled?.enabledTestsId })
-            .then(res => {
+        await axios
+            .post(`${HTTP}/enabletest`, { testId: test.testId, groupId: test.group?.groupId, enabledTestsId: test.isTestEnabled?.enabledTestsId })
+            .then((res) => {
                 if (res.status >= 200 && res.status <= 226) {
                     const _testsWithSubjects = [...testsWithSubjects];
                     if (test.isTestEnabled) {
@@ -79,19 +80,19 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                             ..._testsWithSubjects[i].tests[j]["group"],
                             testId: _testsWithSubjects[i].tests[j].testId,
                             userId: _testsWithSubjects[i].tests[j].userId,
-                            enabledTestsId: res.data.insertId
-                        }
+                            enabledTestsId: res.data.insertId,
+                        };
                     }
                     setTestsWithSubjects(_testsWithSubjects);
                 }
             })
             .catch(console.error);
-    }
+    };
 
     useEffect(() => {
         getTestsSortedWithSubjects();
         getMembersGroups();
-    }, [])
+    }, []);
 
     return (
         <>
@@ -102,7 +103,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                         <b className="text-gray-600 dark:text-slate-200 sticky top-0">თემატიკები</b>
                     </div>
                     <div className="mt-3">
-                        {testsWithSubjects.map((s, i) => {
+                        {testsWithSubjects?.map((s, i) => {
                             return (
                                 <Accordion key={i} collapseAll={true} className="rounded-md bg-white dark:bg-slate-700 transition-colors duration-700 border-none mb-2 text-gray-600">
                                     <Accordion.Panel>
@@ -110,9 +111,15 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                         <Accordion.Content className="bg-white dark:bg-slate-700 transition-colors duration-700 p-0">
                                             {s.tests?.map((t, j) => {
                                                 const testTime = t.testTime / 1000;
-                                                const h = Math.floor(testTime / 60 / 60).toString().padStart(2, '0');
-                                                const m = Math.floor((testTime / 60) % 60).toString().padStart(2, '0');
-                                                const s = Math.floor(testTime % 60).toString().padStart(2, '0');
+                                                const h = Math.floor(testTime / 60 / 60)
+                                                    .toString()
+                                                    .padStart(2, "0");
+                                                const m = Math.floor((testTime / 60) % 60)
+                                                    .toString()
+                                                    .padStart(2, "0");
+                                                const s = Math.floor(testTime % 60)
+                                                    .toString()
+                                                    .padStart(2, "0");
                                                 return (
                                                     <div key={j} className="p-2 text-gray-600 dark:text-slate-200 dark:border-gray-700 transition-none">
                                                         <div className="p-3 border border-1 border-teal-300 dark:border-slate-500 rounded-md">
@@ -126,8 +133,20 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                 </p>
                                                                 <span className="flex items-center">
                                                                     <RiLockPasswordFill className="text-lg mb-1" />
-                                                                    მოწვევის კოდი: {t.password || 'N/A'}
-                                                                    <button className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">
+                                                                    მოწვევის კოდი: {t.password || "N/A"}
+                                                                    <button
+                                                                        className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800"
+                                                                        onClick={() => {
+                                                                            const c = document.createElement("textarea");
+                                                                            c.style.position = "absolute";
+                                                                            c.style.opacity = 0;
+                                                                            document.body.appendChild(c);
+                                                                            c.value = t.password;
+                                                                            c.focus();
+                                                                            c.select();
+                                                                            document.execCommand("copy");
+                                                                            document.body.removeChild(c);
+                                                                        }}>
                                                                         <GrCopy />
                                                                     </button>
                                                                     <button disabled={t.isTestEnabled} className="ms-2 text-sm p-1 rounded-full bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none mb-1 dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800" onClick={() => generateTestpassword(i, j, t.testId)}>
@@ -140,7 +159,7 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                     <div className="relative inline-block text-left w-fit">
                                                                         <div>
                                                                             <button type="button" disabled={t.isTestEnabled} className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white dark:bg-slate-500 dark:hover:bg-slate-400 dark:hover:ring-slate-400 dark:ring-0 dark:text-gray-100 ml-2 py-0 px-0 text-sm text-gray-600 shadow-sm border-0 shadow-0 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => toggleGroupsDropdown(t.testId)}>
-                                                                                {t.group ? t.group.groupName : 'აირჩიეთ ჯგუფი'}
+                                                                                {t.group ? t.group.groupName : "აირჩიეთ ჯგუფი"}
                                                                                 <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                                     <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                                                                                 </svg>
@@ -151,8 +170,10 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                                 <div className="py-1" role="none">
                                                                                     {groups.map((g, k) => {
                                                                                         return (
-                                                                                            <button key={k} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full hover:bg-gray-200 dark:hover:bg-slate-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={() => selectGroupForTest(i, j, g)}>{g.groupName}</button>
-                                                                                        )
+                                                                                            <button key={k} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 w-full hover:bg-gray-200 dark:hover:bg-slate-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={() => selectGroupForTest(i, j, g)}>
+                                                                                                {g.groupName}
+                                                                                            </button>
+                                                                                        );
                                                                                     })}
                                                                                 </div>
                                                                             </div>
@@ -161,17 +182,19 @@ const AdminLayout = ({ darkMode, changeDarkMode }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="mt-3 rounded-sm border border-teal-300 dark:border-slate-500 p-2 flex gap-2">
-                                                                <button className={`text-md w-1/2 py-1 px-2 rounded ${t.isTestEnabled ? 'bg-red-400 hover:bg-red-500 active:bg-red-600' : 'bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600'} outline-none`} onClick={() => enableTest(i, j, t)}>{t.isTestEnabled ? 'დასრულება' : 'გააქტიურება'}</button>
+                                                                <button className={`text-md w-1/2 py-1 px-2 rounded ${t.isTestEnabled ? "bg-red-400 hover:bg-red-500 active:bg-red-600" : "bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600"} outline-none`} onClick={() => enableTest(i, j, t)}>
+                                                                    {t.isTestEnabled ? "დასრულება" : "გააქტიურება"}
+                                                                </button>
                                                                 <button className="text-md w-1/2 py-1 px-2 rounded bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 outline-none dark:bg-slate-500 dark:hover:bg-slate-600 dark:active:bg-slate-800">რედაქტირება</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )
+                                                );
                                             })}
                                         </Accordion.Content>
                                     </Accordion.Panel>
                                 </Accordion>
-                            )
+                            );
                         })}
                     </div>
                 </div>

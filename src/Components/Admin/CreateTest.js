@@ -17,7 +17,7 @@ import { useExaminatorStore } from "../../App";
 import axios from "axios";
 
 const CreateTest = () => {
-    const { HTTP, darkMode } = useExaminatorStore();
+    const { HTTP, darkMode, setTestsWithSubjects } = useExaminatorStore();
 
     const [subjects, setSubjects] = useState([]);
 
@@ -123,7 +123,7 @@ const CreateTest = () => {
         await axios.post(`${HTTP}/createtest`, { generalSettings, tests: slides })
             .then(res => {
                 if (res.status >= 200 && res.status <= 226) {
-                    console.log(1);
+                    setTestsWithSubjects(res.data);
                 }
             })
             .catch(console.error);
