@@ -4,13 +4,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import { useExaminatorStore } from "../../App";
 
-const Precondition = ({ examInfo, setTest, setCurrentQuestion, setIsTestStarted }) => {
-    const {HTTP} = useExaminatorStore();
+const Precondition = ({ examInfo, setExamInfo, setTest, setCurrentQuestion, setIsTestStarted }) => {
+    const { HTTP } = useExaminatorStore();
 
     const [testInformation, setTestInformation] = useState({});
 
     useEffect(() => {
-        console.log(examInfo);
         if (examInfo) {
             setTestInformation({
                 testName: examInfo.testName,
@@ -25,19 +24,19 @@ const Precondition = ({ examInfo, setTest, setCurrentQuestion, setIsTestStarted 
     }, []);
 
     const startExam = async () => {
-        const _examInfo = {...examInfo};
+        const _examInfo = { ...examInfo };
         _examInfo.questions[0].startTime = new Date().getTime() + _examInfo.questions[0].individualTime;
         setTest(_examInfo);
         setCurrentQuestion(_examInfo.questions[0]);
         setIsTestStarted(true);
 
-        await axios.post(`${HTTP}/updateexamstatus`, {test: _examInfo})
-        .then(res => {
-            if(res.status >= 200 && res.status <= 226) {
-                console.log(1);
-            }
-        })
-        .catch(console.error);
+        await axios.post(`${HTTP}/updateexamstatus`, { test: _examInfo })
+            .then(res => {
+                if (res.status >= 200 && res.status <= 226) {
+                    console.log(100);
+                }
+            })
+            .catch(console.error);
     }
 
     return (

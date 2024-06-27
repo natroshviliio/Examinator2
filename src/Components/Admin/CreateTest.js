@@ -52,6 +52,7 @@ const CreateTest = () => {
             answers: [
                 {
                     questionId: 1,
+                    answerId: 1,
                     answer: '',
                     isCorrect: false
                 },
@@ -188,6 +189,7 @@ const CreateTest = () => {
                 answers: [
                     {
                         questionId: slides.length + 1,
+                        answerId: 1,
                         answer: '',
                         isCorrect: false
                     },
@@ -277,6 +279,7 @@ const CreateTest = () => {
             ..._slides[i].answers,
             {
                 questionId: _slides[i].questionId,
+                answerId: _slides[i].answers[_slides[i].answers.length - 1].answerId + 1,
                 answer: '',
                 isCorrect: false
             },
@@ -290,21 +293,25 @@ const CreateTest = () => {
         _slides[i].answers = [
             {
                 questionId: _slides[i].questionId,
+                answerId: 1,
                 answer: '',
                 isCorrect: false
             },
             {
                 questionId: _slides[i].questionId,
+                answerId: 2,
                 answer: '',
                 isCorrect: false
             },
             {
                 questionId: _slides[i].questionId,
+                answerId: 3,
                 answer: '',
                 isCorrect: false
             },
             {
                 questionId: _slides[i].questionId,
+                answerId: 4,
                 answer: '',
                 isCorrect: false
             },

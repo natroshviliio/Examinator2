@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useExaminatorStore } from "../../App";
 import axios from "axios";
 
-const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => {
-    const { HTTP } = useExaminatorStore();
+const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion, isTestFinished, setIsTestFinished, setIsTestStarted }) => {
+    const { HTTP, setUserData } = useExaminatorStore();
 
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
     const [currentTime, setCurrentTime] = useState('00:00:00');
 
     useEffect(() => {
         setCurrentQuestionIndex(test.questions.findIndex(x => x.questionId === currentQuestion.questionId));
-    }, [currentQuestion]);
+    }, [currentQuestion, test]);
 
     const checkAnswer = (e, i) => {
         const _currentQuestion = { ...currentQuestion };
@@ -21,50 +21,69 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion }) => 
     const nextQuestion = async () => {
         const _tests = { ...test };
         const _currentQuestion = { ...currentQuestion };
-        const _isLastQuestion = currentQuestionIndex === _tests.questions.length - 1;
+        const _isLastQuestion = (typeof currentQuestionIndex === "number") && (currentQuestionIndex === _tests.questions.length - 1);
 
         if (_isLastQuestion) {
-
-        } else {
             _currentQuestion.endTime = new Date().getTime();
             _tests.questions[currentQuestionIndex] = _currentQuestion;
-            _tests.questions[currentQuestionIndex + 1].startTime = new Date().getTime() + _tests.questions[currentQuestionIndex + 1].individualTime;
-            setCurrentQuestion(_tests.questions[currentQuestionIndex + 1]);
             setTest(_tests);
 
-            const t = new Date().getTime();
-            const x = (_tests.questions[currentQuestionIndex + 1].startTime - t) / 1000
-            const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
-            const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
-            const s = Math.floor(x % 60).toString().padStart(2, '0');
-
-            setCurrentTime(`${h}:${m}:${s}`);
-
-            await axios.post(`${HTTP}/updateexamstatus`, { test: _tests })
+            await axios.post(`${HTTP}/finishexam`, { test: _tests })
                 .then(res => {
                     if (res.status >= 200 && res.status <= 226) {
-                        console.log(1);
+                        setUserData(res.data);
+                        setIsTestStarted(false);
+                        setIsTestFinished(true);
                     }
                 })
                 .catch(console.error);
+
+        } else {
+            if (typeof currentQuestionIndex === "number") {
+                _currentQuestion.endTime = new Date().getTime();
+                _tests.questions[currentQuestionIndex] = _currentQuestion;
+                _tests.questions[currentQuestionIndex + 1].startTime = new Date().getTime() + _tests.questions[currentQuestionIndex + 1].individualTime;
+                setCurrentQuestion(_tests.questions[currentQuestionIndex + 1]);
+                setTest(_tests);
+
+                const t = new Date().getTime();
+                const x = (_tests.questions[currentQuestionIndex + 1].startTime - t) / 1000
+                const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
+                const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
+                const s = Math.floor(x % 60).toString().padStart(2, '0');
+
+                setCurrentTime(`${h}:${m}:${s}`);
+
+                await axios.post(`${HTTP}/updateexamstatus`, { test: _tests })
+                    .then(res => {
+                        if (res.status >= 200 && res.status <= 226) {
+                            console.log(1);
+                        }
+                    })
+                    .catch(console.error);
+            }
         }
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
+
             const t = new Date().getTime();
-            const x = (currentQuestion.startTime - t) / 1000
-            const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
-            const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
-            const s = Math.floor(x % 60).toString().padStart(2, '0');
-
-            setCurrentTime(`${h}:${m}:${s}`);
-
+            if (t > currentQuestion.startTime) {
+                !isTestFinished && nextQuestion();
+            } else {
+                const x = (currentQuestion.startTime - t) / 1000
+                const h = Math.floor(x / 60 / 60).toString().padStart(2, '0');
+                const m = Math.floor((x / 60) % 60).toString().padStart(2, '0');
+                const s = Math.floor(x % 60).toString().padStart(2, '0');
+                setCurrentTime(`${h}:${m}:${s}`);
+            }
         }, 1000);
 
         return () => clearInterval(interval);
 
     }, [currentTime, currentQuestion])
+
 
 
     return (

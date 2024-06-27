@@ -38,7 +38,7 @@ function App() {
         await axios.get(`${HTTP}/checkuser`)
             .then(res => {
                 if (res.status >= 200 && res.status <= 226) {
-                    if (!userData) setUserData(res.data);
+                    if (!userData) setUserData(res.data[0]);
                 }
             })
             .catch(console.error);

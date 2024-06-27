@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useExaminatorStore } from '../../App';
 import ExamStarted from './ExamStarted';
 import Precondition from './Precondition';
+import ExamResult from './ExamResult';
 
 const ExamLayout = () => {
   const { HTTP, userData } = useExaminatorStore();
@@ -11,6 +12,7 @@ const ExamLayout = () => {
   const [examInfo, setExamInfo] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [isTestStarted, setIsTestStarted] = useState(false);
+  const [isTestFinished, setIsTestFinished] = useState(false);
 
   // const getTest = async () => {
   //   await axios.get(`${HTTP}/test`)
@@ -24,17 +26,22 @@ const ExamLayout = () => {
   // }
 
   useEffect(() => {
+    if (userData.closed) {
+      setIsTestFinished(true);
+    } else {
+      setTest(userData?.progress);
+      setExamInfo(userData?.progress);
+      setCurrentQuestion(userData?.progress?.questions.findLast(x => x.startTime && !x.endTime));
+      setIsTestStarted(userData?.progress?.questions.some(x => x.startTime && !x.endTime));
+    }
     console.log(userData);
-    setTest(userData?.progress);
-    setExamInfo(userData?.progress);
-    setCurrentQuestion(userData?.progress?.questions.findLast(x => x.startTime && !x.endTime));
-    setIsTestStarted(userData?.progress?.questions.some(x => x.startTime));
   }, [])
 
   return (
     <div className='w-screen h-screen bg-white p-2 flex flex-col'>
-      {isTestStarted && <ExamStarted test={test} setTest={setTest} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />}
-      {!isTestStarted && <Precondition examInfo={examInfo} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} />}
+      {isTestStarted && !isTestFinished && < ExamStarted test={test} setTest={setTest} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} isTestFinished={isTestFinished} setIsTestFinished={setIsTestFinished} setIsTestStarted={setIsTestStarted} />}
+      {!isTestStarted && examInfo && !isTestFinished && < Precondition examInfo={examInfo} setExamInfo={setExamInfo} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} />}
+      {!isTestStarted && isTestFinished && <ExamResult />}
     </div>
   )
 }
