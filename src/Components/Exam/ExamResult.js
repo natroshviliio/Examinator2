@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useExaminatorStore } from '../../App'
 
-const ExamResult = () => {
+const ExamResult = ({logout}) => {
   const { userData } = useExaminatorStore();
 
   const [progressPercent, setProgressPercent] = useState(0);
@@ -47,7 +47,7 @@ const ExamResult = () => {
           <span>გილოცავთ, თქვენ გადალახეთ ზღვარი!</span>
         }
       </div>
-      <button className="bg-red-400 text-white px-3 py-1 rounded-md hover:bg-red-500 mt-8">დასრულება</button>
+      <button className="bg-red-400 text-white px-3 py-1 rounded-md hover:bg-red-500 mt-8" onClick={logout}>დასრულება</button>
     </div>
   )
 }

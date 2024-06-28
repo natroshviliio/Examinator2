@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import { useExaminatorStore } from "../../App";
 
-const Precondition = ({ examInfo, setExamInfo, setTest, setCurrentQuestion, setIsTestStarted, openFullscreen }) => {
+const Precondition = ({logout, examInfo, setExamInfo, setTest, setCurrentQuestion, setIsTestStarted, openFullscreen }) => {
     const { HTTP } = useExaminatorStore();
 
     const [testInformation, setTestInformation] = useState({
@@ -18,6 +18,7 @@ const Precondition = ({ examInfo, setExamInfo, setTest, setCurrentQuestion, setI
     });
 
     useEffect(() => {
+        console.log(examInfo);
         if (examInfo) {
             setTestInformation({
                 testName: examInfo.testName,
@@ -72,7 +73,7 @@ const Precondition = ({ examInfo, setExamInfo, setTest, setCurrentQuestion, setI
                 <div className="mt-5 text-center"><i><b>გაითვალისწინეთ რომ ტესტში შესაძლოა შეგხვდეთ კითხვა რომელიც შეიცავს ერთზე მეტ სწორ პასუხს.</b></i></div>
                 <div className="mt-5 text-lg"><b>გისურვებთ წარმატებას</b></div>
                 <button className="px-6 py-1 text-lg bg-emerald-400 hover:bg-emerald-500 active:bg-emerald-600 text-white rounded-md mt-8" onClick={startExam}>დაწყება</button>
-                <button className="px-6 py-1 text-lg bg-red-400 hover:bg-red-500 active:bg-red-600 text-white rounded-md mt-3">გაუქმება</button>
+                <button className="px-6 py-1 text-lg bg-red-400 hover:bg-red-500 active:bg-red-600 text-white rounded-md mt-3" onClick={logout}>გაუქმება</button>
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import Precondition from './Precondition';
 import ExamResult from './ExamResult';
 
 const ExamLayout = () => {
-  const { HTTP, userData } = useExaminatorStore();
+  const { HTTP, userData, setUserData } = useExaminatorStore();
 
   const [test, setTest] = useState(null);
   const [examInfo, setExamInfo] = useState(null);
@@ -55,6 +55,7 @@ const ExamLayout = () => {
     }
   }
 
+
   useEffect(() => {
     var elem = document.getElementById("test");
     const a = window.addEventListener('resize', () => {
@@ -65,16 +66,27 @@ const ExamLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (currentSize.width !== fullScreen.width || currentSize.height !== fullScreen.height) {
+    if (currentSize.width < fullScreen.width || currentSize.height < fullScreen.height) {
       setDisableScreen(true)
     } else {
       setDisableScreen(false);
     }
   }, [currentSize])
 
+
+  const logout = async () => {
+    await axios.post(`${HTTP}/logout`)
+    .then(res => {
+      if(res.status >= 200 && res.status <= 226) {
+        setUserData(null);
+      }
+    })
+    .catch(console.error);
+  }
+
   return (
     <div id='test' ref={testRef} className='w-screen h-screen bg-white p-2 flex flex-col'>
-      {(!isTestStarted && examInfo) && !isTestFinished && < Precondition examInfo={examInfo} setExamInfo={setExamInfo} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} openFullscreen={openFullscreen} />}
+      {(!isTestStarted && examInfo) && !isTestFinished && < Precondition logout={logout} examInfo={examInfo} setExamInfo={setExamInfo} setTest={setTest} setCurrentQuestion={setCurrentQuestion} setIsTestStarted={setIsTestStarted} openFullscreen={openFullscreen} />}
       {(isTestStarted && !isTestFinished) && disableScreen ? (
         <div className='flex items-center justify-center w-full h-full alk-sanet'>
           <button className="bg-emerald-400 text-xl text-white px-3 py-2 rounded-md hover:bg-emerald-500 mt-8" onClick={openFullscreen}>სრულ ეკრანზე დაბრუნება</button>
@@ -82,7 +94,7 @@ const ExamLayout = () => {
       ) : (
         isTestStarted && !isTestFinished && < ExamStarted test={test} setTest={setTest} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} isTestFinished={isTestFinished} setIsTestFinished={setIsTestFinished} setIsTestStarted={setIsTestStarted} />
       )}
-      {!isTestStarted && isTestFinished && <ExamResult />}
+      {!isTestStarted && isTestFinished && <ExamResult logout={logout} />}
     </div>
   )
 }
