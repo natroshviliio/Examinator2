@@ -135,7 +135,6 @@ const CreateTest = () => {
         const _name = e.target.name;
         let _value = Number(e.target.value);
         if (['minutes', 'seconds'].includes(_name)) {
-            console.log(_value, _name);
             if (_value > 59) _value = 59;
             if (_value < 0) _value = 0;
         }
