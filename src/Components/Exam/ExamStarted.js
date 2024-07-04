@@ -116,7 +116,11 @@ const ExamStarted = ({ test, setTest, currentQuestion, setCurrentQuestion, isTes
                                 {currentQuestion.answers.map((a, i) => {
                                     return (
                                         <div key={i} className="w-full flex flex-col 2xl:flex-row 2xl:items-center gap-3 py-4">
-                                            <div className="border flex items-center px-3 border-teal-300 bpg-arial rounded-md 2xl:w-7/12 dark:border-slate-300 min-h-10 max-h-[100px] overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200" name="answer" placeholder="პასუხი...">{a.answer}</div>
+                                            <div className="border p-3 flex border-teal-300 bpg-arial rounded-md 2xl:w-7/12 min-h-10 min-h-10 max-h-[100px] dark:border-slate-300 overflow-y-auto overflow-v bg-white text-gray-600 dark:bg-slate-500 dark:text-gray-200" name="answer" placeholder="პასუხი...">
+                                                <div className="">
+                                                    {a.answer}
+                                                </div>
+                                            </div>
                                             <label htmlFor={`correctAns-${i}-${i}`} className="relative inline-flex gap-3 items-center cursor-pointer lg:w-5/12">
                                                 <input id={`correctAns-${i}-${i}`} type="checkbox" checked={a.isCorrect} onChange={e => checkAnswer(e, i)} className="sr-only peer" />
                                                 <div className={`w-11 h-5 bg-white dark:bg-slate-300 shadow-[0px_1px_5px_2px_rgba(0,0,0,0.1)] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500`}></div>
